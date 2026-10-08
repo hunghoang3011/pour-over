@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pour Over · 25 Công Thức</title>
+<style>
+  :root{
+    --bg:#14100c; --bg2:#1e1812; --card:#221b14; --line:#3a2f23;
+    --txt:#f2e9dd; --mut:#b3a48f; --acc:#e8a04c; --acc2:#7fb98a;
+    --star:#f0c040; --close:#e06c5c; --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--txt);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    padding-bottom:calc(32px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 14px}
+
+  header{padding:calc(18px + env(safe-area-inset-top)) 0 10px}
+  header h1{font-size:22px;letter-spacing:.3px}
+  header h1 em{color:var(--acc);font-style:normal}
+  header p{color:var(--mut);font-size:13.5px;margin-top:4px}
+  .banner{
+    margin-top:10px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;
+    background:var(--bg2);color:var(--mut);font-size:13px
+  }
+  .banner b{color:var(--acc)}
+
+  .sticky{
+    position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    padding:10px 0 8px;border-bottom:1px solid var(--line)
+  }
+  .group-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);margin:6px 2px 6px}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{
+    flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--txt);
+    border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;white-space:nowrap;
+    min-height:40px;touch-action:manipulation;text-align:left
+  }
+  .chip .sub{display:block;font-size:11px;color:var(--mut);line-height:1.25}
+  .chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#1a1208;font-weight:600}
+  .chip[aria-pressed="true"] .sub{color:#4a3418}
+  .chip .star{color:var(--star)}
+  .chip[aria-pressed="true"] .star{color:#7a5a00}
+
+  .recipe{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .recipe-head{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+  .recipe-head h2{font-size:19px;line-height:1.3}
+  .recipe-head .tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:12px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+  .pick-badge{
+    display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:#1a1208;
+    background:var(--star);border-radius:999px;padding:3px 10px
+  }
+  .goal{color:var(--mut);font-size:13.5px;margin-top:8px}
+
+  /* 6 ô thông số chính — tra nhanh */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+  .stat{background:var(--bg2);padding:11px 8px;text-align:center}
+  .stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+  .stat .v{font-size:20px;font-weight:700;margin-top:1px;font-variant-numeric:tabular-nums;line-height:1.2}
+  .stat .u{font-size:11.5px;color:var(--mut);font-weight:400;display:block}
+
+  .section{padding:14px 16px}
+  .section + .section{border-top:1px solid var(--line)}
+  .section h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--acc);margin-bottom:10px}
+  .section h3 .flow{color:var(--mut);text-transform:none;letter-spacing:0;font-weight:400}
+
+  /* Timeline phase rót */
+  .steps{list-style:none}
+  .step{
+    display:grid;grid-template-columns:34px 1fr;gap:10px;padding:10px 0;
+  }
+  .step + .step{border-top:1px dashed var(--line)}
+  .step .no{
+    width:30px;height:30px;border-radius:50%;border:1.5px solid var(--acc);color:var(--acc);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-top:2px
+  }
+  .step.valve-phase .no{border-color:var(--close);color:var(--close)}
+  .step .row1{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .step .t{font-variant-numeric:tabular-nums;font-weight:700;color:var(--txt);font-size:15px}
+  .step .add{font-size:19px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
+  .step .cum{color:var(--mut);font-size:13px;font-variant-numeric:tabular-nums}
+  .step .lbl{
+    font-size:11.5px;font-weight:600;border-radius:6px;padding:1px 7px;letter-spacing:.02em
+  }
+  .lbl.bloom{background:#2e251a;color:var(--acc);border:1px solid var(--line)}
+  .lbl.open{background:rgba(127,185,138,.12);color:var(--acc2);border:1px solid rgba(127,185,138,.35)}
+  .lbl.closed{background:rgba(224,108,92,.12);color:var(--close);border:1px solid rgba(224,108,92,.35)}
+  .step .d{color:var(--mut);font-size:13.5px;margin-top:3px}
+
+  .note{font-size:14px}
+  .note + .note{margin-top:8px}
+  .note.mut{color:var(--mut)}
+  .note b{color:var(--acc)}
+
+  h2.block{font-size:17px;margin:26px 2px 10px}
+  .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;background:var(--card)}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--bg2);color:var(--acc);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* Ma trận 5 phễu của hạt đang chọn */
+  #matrix{min-width:0}
+  #matrix th,#matrix td{padding:8px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  #matrix tbody tr{cursor:pointer}
+  #matrix tbody tr:active{background:var(--bg2)}
+  #matrix tr.sel td{background:rgba(232,160,76,.10)}
+  #matrix tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
+  #matrix .mstar{color:var(--star)}
+
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+  summary{
+    cursor:pointer;padding:13px 14px;font-weight:600;font-size:14.5px;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;min-height:44px
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--acc);font-size:18px;font-weight:400}
+  details[open] summary::after{content:"–"}
+  details .body{padding:0 14px 14px;font-size:14px;color:var(--mut)}
+  details .body p + p{margin-top:8px}
+  details .body b{color:var(--txt)}
+  details .body ul{margin:6px 0 0 18px}
+  details .body li{margin-top:5px}
+
+  footer{margin-top:28px;color:var(--mut);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Pour Over <em>· 25 công thức</em></h1>
+    <p>5 hạt × 5 phễu · dose 12 g · cối KINGrinder K7 &amp; Mischief M40</p>
+    <div class="banner">Đây là <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử. Số nước trong lịch rót là <b>cộng dồn trên cân</b>; mốc giờ là lúc <b>bắt đầu</b> lượt rót; nhiệt độ là nước trong ấm. <b>Tăng click = xay thô hơn.</b></div>
+  </header>
+
+  <div class="sticky">
+    <div class="group-label">Hạt</div>
+    <div class="chips" id="coffeeChips" role="group" aria-label="Chọn hạt"></div>
+    <div class="group-label">Phễu · ★ = lựa chọn đầu tiên cho hạt này</div>
+    <div class="chips" id="dripperChips" role="group" aria-label="Chọn phễu"></div>
+  </div>
+
+  <main id="recipe"></main>
+
+  <h2 class="block">5 ly nên pha đầu tiên</h2>
+  <div class="scroll-x"><table id="firstFive">
+    <thead><tr><th>Hạt</th><th>Phễu</th><th>K7 / M40</th><th>Công thức nhanh</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <details>
+    <summary>Riêng SL34 chỉ có 60 g</summary>
+    <div class="body"><p>Không khuyên dùng hết để thử đủ năm phễu. Dùng <b>hai lần 12 g trên Neo V60</b> để xác lập vị và chỉnh một biến; ba phần còn lại mới so phễu hoặc xác nhận công thức. Một đối chứng tốt có giá trị hơn năm ly mỗi ly đổi cả phễu, cỡ xay và nước.</p></div>
+  </details>
+
+  <h2 class="block">Dial-in theo triệu chứng — đổi một biến mỗi lần</h2>
+  <div class="scroll-x"><table id="dialin">
+    <thead><tr><th>Ly thực tế</th><th>Điều chỉnh đầu tiên</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <h2 class="block">Quy ước</h2>
+  <details>
+    <summary>Cỡ xay K7 &amp; M40</summary>
+    <div class="body">
+      <p><b>K7:</b> số click tính từ điểm zero theo hãng, không siết cưỡng bức. Vùng medium chính hãng là <b>60–80 click</b> (không phải 90–120 của K6).</p>
+      <p><b>M40:</b> quy ước <b>44 click M40 ≈ 22 click C40</b> — chỉ là mốc danh nghĩa, không có nghĩa bột xay giống C40.</p>
+      <p>Biên dial-in ban đầu khoảng <b>±4 click</b>; mỗi lần thử chỉ đổi <b>2 click</b>. Tăng click = thô hơn. Không quy đổi hai cối theo một hệ số cố định.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Khoáng (K) — gram chế phẩm / 1 lít Aquafina</summary>
+    <div class="body">
+      <p><b>K = số gram chế phẩm khoáng cho mỗi 1 lít Aquafina</b>, pha nước trước rồi mới lấy nước đó pha cà. K4,0 = mức đối chứng đo được 70–80 ppm; K4,2 = tăng liều 5%.</p>
+      <p>Chỉ áp dụng cho <b>đúng chế phẩm đã đo ra 70–80 ppm ở liều 4 g/L</b> — không phải cân 4 g MgSO₄ + KHCO₃ nguyên chất. Tăng liều tăng cả MgSO₄ lẫn KHCO₃ theo tỉ lệ có sẵn, không chỉnh riêng được. Các mức lệch nhỏ (K3,8 vs K4,0) là giả thuyết để thử, không phải ranh giới chắc chắn.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Dose, tỉ lệ &amp; cách đọc lịch rót</summary>
+    <div class="body">
+      <p>Dose <b>12 g cho tất cả</b>: 192 g = 1:16 · 198 g = 1:16,5 · 200 g = 1:16,67 · 204 g = 1:17.</p>
+      <ul>
+        <li>Số nước trong lịch rót là <b>số cộng dồn trên cân</b>; mốc thời gian là lúc bắt đầu lượt rót.</li>
+        <li>Tổng thời gian tính từ giọt đầu đến khi dòng chảy chuyển sang nhỏ giọt chậm; không chờ khô tuyệt đối.</li>
+        <li>Rót thấp, dòng liền, không xối trực tiếp vào thành giấy. “Xoay nhẹ” = một vòng nhỏ, không lắc mạnh.</li>
+        <li>Neo thường = <b>van mở xuyên suốt</b>. Neo Switch = giấy V60 + lịch đóng/mở van.</li>
+        <li>Nếu đến lượt kế tiếp mà nước còn quá cao, chờ thêm vài giây, tránh tràn; không cố chờ bed khô hoàn toàn.</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Với hai cối K7 &amp; M40</summary>
+    <div class="body">
+      <ul>
+        <li>M40 chảy chậm hơn K7 không phải lỗi — nếm trước; ngọt, sạch thì giữ.</li>
+        <li>M40 chậm <b>và</b> khô → tăng 2 click M40; không tự động đổi nhiệt hay khoáng theo. Tương tự K7 nhanh hơn mà vẫn ngọt cũng không phải lỗi.</li>
+        <li>Mức khoáng chọn theo ly mục tiêu, không theo tên cối.</li>
+        <li>Không mặc định chát = chiết xuất quá cao: bed tắc, phân bố dòng không đều hoặc khuấy mạnh cũng tạo ly vừa chua vừa chát.</li>
+      </ul>
+    </div>
+  </details>
+
+  <footer>Dữ liệu từ bộ công thức dial-in · K4,0 = 4 g chế phẩm/L Aquafina (~70–80 ppm)</footer>
+</div>
+
+<script>
+const DRIPPERS = [
+  {id:'ct62',    name:'CT62 gốm',            prep:'Làm nóng kỹ cả thân và tráng giấy, đổ bỏ nước ngay trước khi pha. Giấy cone đặt vừa, không bít đường thoát.'},
+  {id:'neo',     name:'Neo V60 · mở van',    prep:'Van mở xuyên suốt (thân Tritan). Tráng giấy và làm ấm bình thường; không xử lý như Switch thủy tinh.'},
+  {id:'switch',  name:'Neo Switch · hybrid', prep:'Dùng giấy V60, đóng/mở van theo đúng lịch rót bên dưới. Không đóng van từ đầu khi công thức yêu cầu bloom mở.'},
+  {id:'yearn',   name:'Yearn 155 · lyocell', prep:'Đúng giấy lyocell. Không mặc định giấy lyocell luôn nhanh hay chậm nếu chưa biết mã giấy.'},
+  {id:'origami', name:'Origami · giấy V60',  prep:'Đúng giấy V60, không dùng giấy wave. Nếu thân gốm: làm nóng kỹ; nếu nhựa: tráng bình thường.'},
+];
+
+// step: [thời điểm, nước cộng dồn (g) hoặc null, ghi chú, van: 'open'|'closed'|null]
+const COFFEES = [
+  {
+    id:'sl34', name:'Panama SL34 washed', roaster:'Big Sur', roast:'Rang cực sáng',
+    goal:'Mục tiêu: cam/quýt sáng, raspberry rõ, ngọt sạch; tránh chua sống, mỏng và hậu khô. Bám khuyến nghị xưởng 94°C · 12:200 làm nền — không mặc định ultra-light là phải 99–100°C.',
+    pick:'neo',
+    why:'Neo V60 ít biến số làm nóng thân phễu hơn CT62 gốm, đồng thời gần cách pha xưởng khuyến nghị. Với 60 g hạt, ưu tiên xây một mốc đáng tin trước.',
+    adjust:[
+      'Chua xanh và loãng → thử <b>mịn hơn 2 click</b> hoặc <b>+1°C</b> trước.',
+      'Hương cam bị lì, mất độ bật mà chiết xuất vẫn ổn → giảm khoáng <b>K4,2 → K3,8</b>; thêm khoáng không mặc nhiên giúp rang sáng ngon hơn.',
+    ],
+    recipes:{
+      ct62:   {k7:62,m40:44,water:200,temp:95,k:'4,0',time:'2:35–3:10',flow:'lượt giữa ~4 g/s · lượt cuối 3–4 g/s',
+        steps:[['0:00',40,'Xoay nhẹ cho ướt đều.',null],['0:45',130,'Rót vòng nhỏ.',null],['1:25',200,'Không xoay cuối nếu dòng thoát đã đều.',null]],notes:[]},
+      neo:    {k7:60,m40:42,water:204,temp:94,k:'4,2',time:'2:30–3:05',flow:'lượt giữa ~4 g/s · lượt cuối ~3,5 g/s',
+        steps:[['0:00',40,'Xoay nhẹ.',null],['0:45',130,'',null],['1:25',204,'',null]],
+        notes:['Mục tiêu: đủ chiết xuất ở dose nhỏ nhưng vẫn giữ quýt/berry tách bạch.']},
+      switch: {k7:68,m40:48,water:204,temp:95,k:'4,0',time:'2:55–3:30',flow:'~4 g/s',
+        steps:[['0:00',40,'','open'],['0:45',110,'Vẫn mở van.','open'],['1:20',204,'Đóng van, rót xong khoảng 1:45.','closed'],['2:10',null,'Mở van, để thoát hết. Không khuấy cuối.','open']],
+        notes:['Chọn cách này nếu pour-over thường ra chua nhọn, thân vị rỗng dù bed thoát đều.']},
+      yearn:  {k7:64,m40:46,water:200,temp:94,k:'4,2',time:'2:35–3:15',flow:'3–3,5 g/s, vòng nhỏ',
+        steps:[['0:00',40,'',null],['0:40',100,'',null],['1:10',150,'',null],['1:40',200,'',null]],
+        notes:['Không quét sát thành, không xoay mỗi lượt. Bốn lượt là cách thử tăng tiếp xúc; nếu giấy bắt đầu nghẹt, chuyển sang ba lượt <b>40 → 120 → 200</b>, không tiếp tục xay mịn để đuổi thời gian.']},
+      origami:{k7:61,m40:43,water:200,temp:95,k:'3,8',time:'2:25–3:00',flow:'3,5–4 g/s',
+        steps:[['0:00',40,'',null],['0:45',120,'',null],['1:20',200,'Vòng rót vừa phải, không chỉ chọc một điểm giữa.',null]],notes:[]},
+    }
+  },
+  {
+    id:'monteblanco', name:'Monteblanco “Nectar Citrullus”', roaster:'Colombia', roast:'Infused / co-fermented',
+    goal:'Mục tiêu: tropical rõ, lemon candy ngọt, melon/dưa dễ chịu; hạn chế cảm giác nồng, hương kẹo quá dày và hậu khô. Không coi infused là luôn dễ chiết xuất — nếu hạt rang rất sáng, các mức này có thể cần +1–2°C.',
+    pick:'origami',
+    why:'Muốn thử hướng thơm rõ nhưng nhẹ và thoáng hơn, nên ghép ba lượt rót ít khuấy với tỉ lệ 1:16,5. Đây là mục tiêu của cấu hình, không phải bảo đảm Origami luôn trong hơn các phễu khác.',
+    adjust:[
+      'Hương dưa/kẹo vẫn quá dày nhưng không khô → thêm <b>5–10 g nước vào ly</b> sau pha.',
+      'Mùi lên men là đặc tính của hạt — không thể “rửa sạch” hoàn toàn chỉ bằng đổi phễu.',
+    ],
+    recipes:{
+      ct62:   {k7:70,m40:50,water:192,temp:91,k:'3,6',time:'2:15–2:45',flow:'~4 g/s',
+        steps:[['0:00',36,'Chỉ đủ vòng rót để ướt đều.',null],['0:35',112,'',null],['1:10',192,'Không xoay cuối.',null]],notes:[]},
+      neo:    {k7:72,m40:52,water:192,temp:90,k:'3,2',time:'2:10–2:40',flow:'4–4,5 g/s, rót thấp',
+        steps:[['0:00',36,'Nếu bloom có chỗ khô, sửa nhẹ tại chỗ, không khuấy toàn bed.',null],['0:35',120,'',null],['1:10',192,'',null]],notes:[]},
+      switch: {k7:76,m40:56,water:192,temp:89,k:'3,2',time:'2:30–3:00',flow:'',
+        steps:[['0:00',36,'','open'],['0:35',96,'Vẫn mở van.','open'],['1:00',192,'Đóng van, rót xong khoảng 1:25.','closed'],['1:55',null,'Mở van. Không lắc lúc ngâm.','open']],
+        notes:['Đây là hybrid ngâm ngắn, không nhằm kéo tối đa độ đậm của hương lên men.']},
+      yearn:  {k7:69,m40:49,water:192,temp:91,k:'3,6',time:'2:20–2:55',flow:'3–3,5 g/s',
+        steps:[['0:00',36,'',null],['0:35',108,'',null],['1:10',192,'Vòng nhỏ phủ mặt bed, không xối mép giấy.',null]],notes:[]},
+      origami:{k7:70,m40:50,water:198,temp:90,k:'3,4',time:'2:10–2:45',flow:'~4 g/s',
+        steps:[['0:00',36,'',null],['0:35',120,'',null],['1:10',198,'Không xoay cuối.',null]],notes:[]},
+    }
+  },
+  {
+    id:'gedeb', name:'Ethiopia Gedeb Gotiti', roaster:'Heirloom', roast:'Natural',
+    goal:'Mục tiêu: raisin/prune ngọt, floral còn rõ, body mềm; tránh kéo thành trà đen khô và vị gỗ. Không chia quá nhiều lượt rót — nếu lô này sinh nhiều fines, khuấy và kéo dài pha có thể gây hậu khô trước khi độ ngọt tốt lên.',
+    pick:'switch',
+    why:'Muốn lấy vị ngọt trái cây khô bằng thời gian tiếp xúc, nhưng không buộc phải xay thật mịn. Nếu thích floral nhẹ, kiểu trà hơn là prune tròn, chuyển ưu tiên sang Origami.',
+    adjust:[],
+    recipes:{
+      ct62:   {k7:68,m40:48,water:200,temp:94,k:'4,0',time:'2:35–3:10',flow:'~3,5 g/s',
+        steps:[['0:00',40,'',null],['0:40',120,'',null],['1:20',200,'Không xoay cuối.',null]],notes:[]},
+      neo:    {k7:70,m40:50,water:200,temp:93,k:'3,8',time:'2:25–3:05',flow:'~4 g/s',
+        steps:[['0:00',40,'',null],['0:40',130,'',null],['1:20',200,'Không cố rót cao để kéo dài thời gian.',null]],notes:[]},
+      switch: {k7:75,m40:54,water:200,temp:93,k:'3,6',time:'2:55–3:30',flow:'',
+        steps:[['0:00',40,'','open'],['0:40',100,'Vẫn mở van.','open'],['1:10',200,'Đóng van, rót xong khoảng 1:35.','closed'],['2:15',null,'Mở van, không khuấy.','open']],
+        notes:['Mức xay thô hơn các cấu hình percolation để tạo khoảng ngâm mà không phải ép nước qua bed quá mịn.']},
+      yearn:  {k7:71,m40:50,water:198,temp:93,k:'4,0',time:'2:35–3:15',flow:'~3 g/s, rót thấp',
+        steps:[['0:00',40,'',null],['0:40',120,'',null],['1:20',198,'Không lắc giấy.',null]],
+        notes:['Nếu đuôi thoát kéo dài bất thường, ưu tiên <b>thô hơn 2 click</b> và giảm khuấy; không tăng nhiệt để chữa tắc.']},
+      origami:{k7:69,m40:49,water:204,temp:94,k:'3,8',time:'2:25–3:05',flow:'~4 g/s',
+        steps:[['0:00',40,'',null],['0:40',130,'',null],['1:20',204,'Không xoay cuối.',null]],notes:[]},
+    }
+  },
+  {
+    id:'lemoncandy', name:'Colombia “Lemon Candy Geisha”', roaster:'Geisha', roast:'Infused & co-fermentation',
+    goal:'Mục tiêu: lemon tea, grapefruit tươi, hoa thanh; ginger ở hậu vị chứ không thành cay khô. Không cố loại hết vị đắng grapefruit hay nét gừng — điều cần tránh là đắng gắt đi cùng khô miệng, không phải mọi cảm giác đắng.',
+    pick:'origami',
+    why:'Ưu tiên hướng lemon tea và hoa, thay vì làm body quá đầy. Cỡ xay vẫn vừa đủ mịn để không biến ly thành nước chanh có hương hoa.',
+    adjust:[
+      'Chua mỏng, thiếu đường → trước hết <b>+1°C</b> hoặc <b>mịn hơn 2 click</b>.',
+      'Đã ngọt nhưng acid vẫn sắc quá mức → mới thử <b>K3,2 → K3,6</b>; hiệu quả còn phụ thuộc lượng KHCO₃ trong chế phẩm.',
+    ],
+    recipes:{
+      ct62:   {k7:66,m40:46,water:198,temp:92,k:'3,4',time:'2:25–2:55',flow:'~3,5 g/s, vòng nhỏ',
+        steps:[['0:00',40,'',null],['0:40',120,'',null],['1:15',198,'Không xoay cuối.',null]],notes:[]},
+      neo:    {k7:68,m40:48,water:200,temp:91,k:'3,2',time:'2:20–2:50',flow:'~4 g/s',
+        steps:[['0:00',40,'',null],['0:40',125,'',null],['1:15',200,'Hạn chế rót sát thành.',null]],notes:[]},
+      switch: {k7:73,m40:52,water:200,temp:90,k:'3,2',time:'2:40–3:10',flow:'',
+        steps:[['0:00',40,'','open'],['0:40',100,'Vẫn mở van.','open'],['1:05',200,'Đóng van, rót xong khoảng 1:30.','closed'],['2:00',null,'Mở van.','open']],
+        notes:['Dùng khi muốn vị lemon candy tròn hơn, không ngâm dài ngay từ đầu.']},
+      yearn:  {k7:68,m40:48,water:198,temp:92,k:'3,6',time:'2:25–3:00',flow:'~3 g/s',
+        steps:[['0:00',40,'',null],['0:40',115,'',null],['1:15',198,'Rót vòng nhỏ đều trên mặt bed.',null]],notes:[]},
+      origami:{k7:65,m40:46,water:200,temp:91,k:'3,2',time:'2:20–2:55',flow:'3,5–4 g/s',
+        steps:[['0:00',40,'Bloom chỉ xoay nếu có chỗ khô.',null],['0:40',120,'',null],['1:15',200,'',null]],notes:[]},
+    }
+  },
+  {
+    id:'moonstone', name:'Thailand Moonstone', roaster:'TRUNK', roast:'Multi-cultured inoculated yeast',
+    goal:'Mục tiêu: vải, hoa hồng, vị kẹo và body mượt; không để hương lên men lấn hết vị ngọt. Mô tả producer/profile chỉ dùng làm định hướng, không coi là bằng chứng lô này giống hoàn toàn các lô Moonstone từ xưởng khác.',
+    pick:'yearn',
+    why:'Muốn ưu tiên kẹo vải và cảm giác miệng tròn, nên chọn cấu hình đáy phẳng, 1:16, rót nhẹ. Nếu ly thực tế quá dày hương hoặc hoa hồng bị chìm, thử Origami 1:16,5 trước khi giảm nhiệt sâu.',
+    adjust:[],
+    recipes:{
+      ct62:   {k7:68,m40:48,water:192,temp:92,k:'3,8',time:'2:25–2:55',flow:'~3,5 g/s',
+        steps:[['0:00',36,'',null],['0:40',112,'',null],['1:15',192,'Không xoay cuối.',null]],notes:[]},
+      neo:    {k7:71,m40:51,water:198,temp:91,k:'3,6',time:'2:20–2:50',flow:'~4 g/s',
+        steps:[['0:00',40,'',null],['0:40',120,'',null],['1:15',198,'Hướng vị nhẹ, hoa rõ hơn cấu hình 1:16.',null]],notes:[]},
+      switch: {k7:75,m40:54,water:192,temp:90,k:'3,4',time:'2:40–3:10',flow:'',
+        steps:[['0:00',36,'','open'],['0:40',96,'Vẫn mở van.','open'],['1:05',192,'Đóng van, rót xong khoảng 1:30.','closed'],['2:00',null,'Mở van. Không khuấy.','open']],
+        notes:['Dùng khi muốn body tròn nhưng không kéo quá mạnh hương men.']},
+      yearn:  {k7:70,m40:50,water:192,temp:92,k:'3,8',time:'2:25–3:00',flow:'~3 g/s',
+        steps:[['0:00',36,'',null],['0:40',108,'',null],['1:15',192,'Vòng nhỏ phân bố đều, không đổ hết vào một điểm giữa.',null]],
+        notes:['Giữ ba lượt để lấy độ đầy ở 1:16 mà không tăng khuấy quá nhiều.']},
+      origami:{k7:69,m40:49,water:198,temp:91,k:'3,4',time:'2:20–2:50',flow:'~4 g/s, rót thấp',
+        steps:[['0:00',40,'',null],['0:40',120,'',null],['1:15',198,'',null]],notes:[]},
+    }
+  },
+];
+
+const FIRST_FIVE = [
+  ['SL34 ultra-light','Neo V60, mở van','60 / 42','12:204 · 94°C · K4,2 · 40–130–204'],
+  ['Monteblanco Nectar Citrullus','Origami + V60','70 / 50','12:198 · 90°C · K3,4 · 36–120–198'],
+  ['Gedeb Gotiti Natural','Neo Switch hybrid','75 / 54','12:200 · 93°C · K3,6 · mở van cuối ở 2:15'],
+  ['Lemon Candy Geisha','Origami + V60','65 / 46','12:200 · 91°C · K3,2 · 40–120–200'],
+  ['Moonstone','Yearn 155 + lyocell','70 / 50','12:192 · 92°C · K3,8 · 36–108–192'],
+];
+
+const DIALIN = [
+  ['Chua xanh, mỏng, hậu ngắn; nước thoát đều và nhanh','Mịn hơn <b>2 click</b> trên cối đang dùng'],
+  ['Thiếu ngọt nhưng dòng thoát đã khá chậm','Tăng <b>1°C</b>, chưa vội xay mịn'],
+  ['Khô miệng, đuôi chảy rất lâu','Giảm xoay/khuấy; nếu chưa hết, thô hơn <b>2 click</b>'],
+  ['Vừa chua vừa chát, dòng thoát thất thường','Kiểm tra bloom, rót và giấy; không mặc định là thiếu nhiệt'],
+  ['Ngon nhưng quá đậm','Thêm <b>5–10 g nước vào ly</b> để thử trước'],
+  ['Hương rõ nhưng nồng, khó uống','Thử giảm nhiệt <b>1–2°C</b> hoặc rút ngắn ngâm'],
+  ['Đã ngọt nhưng acid quá gắt','Thử tăng liều khoáng <b>0,2–0,4 g/L</b>, có đối chứng'],
+  ['Vị lì, hương citrus thiếu bật','Thử giảm liều khoáng <b>0,2–0,4 g/L</b>'],
+];
+
+const ratio = w => '1:' + (Math.round((w/12)*10)/10).toString().replace('.',',');
+const valveLbl = v => v==='open' ? '<span class="lbl open">van mở</span>' : '<span class="lbl closed">van đóng</span>';
+
+let state = {coffee:'sl34', dripper:'neo'};
+try{
+  const s = JSON.parse(localStorage.getItem('pourover')||'null');
+  if(s && COFFEES.some(c=>c.id===s.coffee) && DRIPPERS.some(d=>d.id===s.dripper)) state = s;
+}catch(e){}
+
+function renderChips(){
+  const cc = document.getElementById('coffeeChips');
+  cc.innerHTML = COFFEES.map(c=>
+    `<button class="chip" data-id="${c.id}" aria-pressed="${c.id===state.coffee}">${c.name.replace(/^Panama |^Ethiopia |^Colombia |^Thailand /,'')}<span class="sub">${c.roaster} · ${c.roast}</span></button>`
+  ).join('');
+  const pickId = COFFEES.find(c=>c.id===state.coffee).pick;
+  document.getElementById('dripperChips').innerHTML = DRIPPERS.map(d=>
+    `<button class="chip" data-id="${d.id}" aria-pressed="${d.id===state.dripper}">${d.id===pickId?'<span class="star">★</span> ':''}${d.name}</button>`
+  ).join('');
+  cc.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.coffee=b.dataset.id;save();renderAll();});
+  document.getElementById('dripperChips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.dripper=b.dataset.id;save();renderAll();});
+  // đưa chip đang chọn vào vùng nhìn thấy (chỉ cuộn ngang, không cuộn trang)
+  [cc, document.getElementById('dripperChips')].forEach(box=>{
+    const sel = box.querySelector('[aria-pressed="true"]');
+    if(sel && box.scrollWidth > box.clientWidth) box.scrollLeft = sel.offsetLeft - box.clientWidth/2 + sel.clientWidth/2;
+  });
+}
+
+function renderRecipe(){
+  const c = COFFEES.find(x=>x.id===state.coffee);
+  const d = DRIPPERS.find(x=>x.id===state.dripper);
+  const r = c.recipes[state.dripper];
+  const isPick = c.pick === state.dripper;
+  const pickD = DRIPPERS.find(x=>x.id===c.pick);
+
+  // dựng phase: tính delta nước mỗi lượt
+  let prev = 0;
+  const steps = r.steps.map(([t,w,note,valve],i)=>{
+    const add = w==null ? null : w - prev;
+    if(w!=null) prev = w;
+    const isBloom = i===0;
+    const cls = valve==='closed' ? 'step valve-phase' : 'step';
+    return `<li class="${cls}">
+      <span class="no">${isBloom?'❋':i+1}</span>
+      <span>
+        <span class="row1">
+          <span class="t">${t}</span>
+          ${add!=null?`<span class="add">+${add} g</span><span class="cum">→ ${w} g</span>`:''}
+          ${isBloom?'<span class="lbl bloom">bloom</span>':''}
+          ${valve?valveLbl(valve):''}
+        </span>
+        ${note?`<div class="d">${note}</div>`:''}
+      </span>
+    </li>`;
+  }).join('');
+
+  // ma trận 5 phễu của hạt này
+  const matrix = DRIPPERS.map(dd=>{
+    const rr = c.recipes[dd.id];
+    return `<tr data-id="${dd.id}" class="${dd.id===state.dripper?'sel':''}">
+      <td>${dd.id===c.pick?'<span class="mstar">★</span> ':''}${dd.name}</td>
+      <td class="num">${rr.k7}</td><td class="num">${rr.m40}</td>
+      <td class="num">${rr.water} g</td><td class="num">${rr.temp}°C</td>
+      <td class="num">K${rr.k}</td><td class="num">${rr.time}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('recipe').innerHTML = `
+  <article class="recipe">
+    <div class="recipe-head">
+      <h2>${c.name}</h2>
+      <div class="tags">
+        <span class="tag">${c.roaster}</span>
+        <span class="tag">${c.roast}</span>
+        <span class="tag">${d.name}</span>
+        ${isPick?'<span class="pick-badge">★ Lựa chọn đầu tiên</span>':''}
+      </div>
+      <p class="goal">${c.goal}</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="k">Cỡ xay K7</div><div class="v">${r.k7}<span class="u">click từ zero</span></div></div>
+      <div class="stat"><div class="k">Cỡ xay M40</div><div class="v">${r.m40}<span class="u">click</span></div></div>
+      <div class="stat"><div class="k">Nước</div><div class="v">${r.water}<span class="u">g · tỉ lệ ${ratio(r.water)}</span></div></div>
+      <div class="stat"><div class="k">Nhiệt độ</div><div class="v">${r.temp}<span class="u">°C trong ấm</span></div></div>
+      <div class="stat"><div class="k">Khoáng</div><div class="v">K${r.k}<span class="u">g/L Aquafina</span></div></div>
+      <div class="stat"><div class="k">Tổng thời gian</div><div class="v" style="font-size:17px;padding-top:2px">${r.time}<span class="u">tham khảo</span></div></div>
+    </div>
+    <div class="section">
+      <h3>Lịch rót · 12 g → ${r.water} g ${r.flow?`<span class="flow">· ${r.flow}</span>`:''}</h3>
+      <ol class="steps">${steps}</ol>
+    </div>
+    <div class="section">
+      <h3>So nhanh 5 phễu · ${c.name.replace(/^Panama |^Ethiopia |^Colombia |^Thailand /,'')}</h3>
+      <div class="scroll-x" style="border:none;border-radius:0">
+      <table id="matrix">
+        <thead><tr><th>Phễu</th><th>K7</th><th>M40</th><th>Nước</th><th>Nhiệt</th><th>Khoáng</th><th>Tổng TG</th></tr></thead>
+        <tbody>${matrix}</tbody>
+      </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Lưu ý</h3>
+      ${r.notes.map(n=>`<p class="note">${n}</p>`).join('')}
+      <p class="note mut"><b>Chuẩn bị phễu:</b> ${d.prep}</p>
+      ${!isPick?`<p class="note mut">★ Với hạt này, lựa chọn đầu tiên là <b>${pickD.name}</b> — K7 ${c.recipes[c.pick].k7} · M40 ${c.recipes[c.pick].m40} · ${c.recipes[c.pick].temp}°C · K${c.recipes[c.pick].k}.</p>`:''}
+    </div>
+    ${c.adjust.length?`<div class="section"><h3>Chỉnh riêng cho hạt này</h3>${c.adjust.map(a=>`<p class="note">${a}</p>`).join('')}</div>`:''}
+    <div class="section">
+      <h3>Vì sao pick ${pickD.name}?</h3>
+      <p class="note">${c.why}</p>
+    </div>
+  </article>`;
+
+  document.querySelectorAll('#matrix tbody tr').forEach(tr=>{
+    tr.onclick = ()=>{ state.dripper = tr.dataset.id; save(); renderAll();
+      document.querySelector('.recipe').scrollIntoView({behavior:'smooth',block:'start'}); };
+  });
+}
+
+function renderTables(){
+  document.querySelector('#firstFive tbody').innerHTML = FIRST_FIVE.map(r=>
+    `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td></tr>`).join('');
+  document.querySelector('#dialin tbody').innerHTML = DIALIN.map(r=>
+    `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+}
+
+function save(){ try{localStorage.setItem('pourover',JSON.stringify(state));}catch(e){} }
+function renderAll(){ renderChips(); renderRecipe(); }
+
+renderAll();
+renderTables();
+</script>
+</body>
+</html>
