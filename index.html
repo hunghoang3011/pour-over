@@ -138,7 +138,7 @@
   <header>
     <h1>Pour Over <em>· 25 công thức</em></h1>
     <p>5 hạt × 5 phễu · dose 12 g · cối KINGrinder K7 &amp; Mischief M40</p>
-    <div class="banner">Đây là <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử. Số nước trong lịch rót là <b>cộng dồn trên cân</b>; mốc giờ là lúc <b>bắt đầu</b> lượt rót; nhiệt độ là nước trong ấm. <b>Tăng click = xay thô hơn.</b></div>
+    <div class="banner">Đây là <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử. Số nước trong lịch rót là <b>cộng dồn trên cân</b>; mốc giờ là lúc <b>bắt đầu</b> lượt rót; nhiệt độ là nước trong ấm lúc bắt đầu pha; không cần giữ nhiệt trong khoảng bloom ngắn. <b>Tăng click = xay thô hơn.</b> Thời gian chỉ để tham khảo — không ép ly chảy đúng giờ nếu nó đã ngọt và sạch.</div>
   </header>
 
   <div class="sticky">
@@ -213,7 +213,7 @@
 <script>
 const DRIPPERS = [
   {id:'ct62',    name:'CT62 gốm',            prep:'Làm nóng kỹ cả thân và tráng giấy, đổ bỏ nước ngay trước khi pha. Giấy cone đặt vừa, không bít đường thoát.'},
-  {id:'neo',     name:'Neo V60 · mở van',    prep:'Van mở xuyên suốt (thân Tritan). Tráng giấy và làm ấm bình thường; không xử lý như Switch thủy tinh.'},
+  {id:'neo',     name:'Neo V60 · mở van',    prep:'Van mở xuyên suốt (thân Tritan). Giấy Hario V60: tráng giấy và đổ bỏ nước tráng trước khi pha. Giấy Hario không mặc nhiên làm giảm chiết xuất — tốc độ thoát còn tùy mã giấy, cách đặt và fines; dùng một loại giấy quen để dễ kiểm soát.'},
   {id:'switch',  name:'Neo Switch · hybrid', prep:'Dùng giấy V60, đóng/mở van theo đúng lịch rót bên dưới. Không đóng van từ đầu khi công thức yêu cầu bloom mở.'},
   {id:'yearn',   name:'Yearn 155 · lyocell', prep:'Đúng giấy lyocell. Không mặc định giấy lyocell luôn nhanh hay chậm nếu chưa biết mã giấy.'},
   {id:'origami', name:'Origami · giấy V60',  prep:'Đúng giấy V60, không dùng giấy wave. Nếu thân gốm: làm nóng kỹ; nếu nhựa: tráng bình thường.'},
@@ -248,18 +248,19 @@ const COFFEES = [
   },
   {
     id:'monteblanco', name:'Monteblanco “Nectar Citrullus”', roaster:'Colombia', roast:'Infused / co-fermented',
-    goal:'Mục tiêu: tropical rõ, lemon candy ngọt, melon/dưa dễ chịu; hạn chế cảm giác nồng, hương kẹo quá dày và hậu khô. Không coi infused là luôn dễ chiết xuất — nếu hạt rang rất sáng, các mức này có thể cần +1–2°C.',
-    pick:'origami',
-    why:'Muốn thử hướng thơm rõ nhưng nhẹ và thoáng hơn, nên ghép ba lượt rót ít khuấy với tỉ lệ 1:16,5. Đây là mục tiêu của cấu hình, không phải bảo đảm Origami luôn trong hơn các phễu khác.',
+    goal:'Mục tiêu: tropical rõ, lemon candy ngọt, melon/dưa dễ chịu; hạn chế cảm giác nồng, hương kẹo quá dày và hậu khô. Lô thực tế rang đậm hơn dự kiến và vị ngọt mỏng, nên bộ mới giảm nhiệt và khoáng vừa phải thay vì đẩy chiết xuất — vị uống thực tế ưu tiên hơn tên giống hay mô tả sơ chế.',
+    pick:'neo',
+    why:'Ưu tiên thơm sạch, giảm cảm giác nồng: Neo van mở + giấy Hario + hai lượt rót, ít khuấy, nhiệt thấp hơn và xay thô hơn vừa phải. Nhiệt thấp nhất nhóm và khoáng giảm tương đối mạnh để ly dễ uống hơn, trong khi giữ 1:16 để không làm thân vị quá mỏng.',
     adjust:[
-      'Hương dưa/kẹo vẫn quá dày nhưng không khô → thêm <b>5–10 g nước vào ly</b> sau pha.',
-      'Mùi lên men là đặc tính của hạt — không thể “rửa sạch” hoàn toàn chỉ bằng đổi phễu.',
+      'Thơm nhưng rỗng, thiếu ngọt → thử <b>89–90°C</b> trước, chưa cần xay mịn ngay.',
+      'Mùi lên men là đặc tính của hạt — không thể “rửa sạch” hoàn toàn chỉ bằng đổi phễu hay hạ nhiệt.',
     ],
     recipes:{
       ct62:   {k7:70,m40:50,water:192,temp:91,k:'3,6',time:'2:15–2:45',flow:'~4 g/s',
         steps:[['0:00',36,'Chỉ đủ vòng rót để ướt đều.',null],['0:35',112,'',null],['1:10',192,'Không xoay cuối.',null]],notes:[]},
-      neo:    {k7:72,m40:52,water:192,temp:90,k:'3,2',time:'2:10–2:40',flow:'4–4,5 g/s, rót thấp',
-        steps:[['0:00',36,'Nếu bloom có chỗ khô, sửa nhẹ tại chỗ, không khuấy toàn bed.',null],['0:35',120,'',null],['1:10',192,'',null]],notes:[]},
+      neo:    {k7:76,m40:54,water:192,temp:88,k:'2,8',time:'1:55–2:30',flow:'lượt chính 3,5–4 g/s · rót thấp, không nhỏ giọt kéo dài',
+        steps:[['0:00',36,'Rót trong khoảng 10 giây, phủ ướt toàn bộ cà; nếu còn túi bột khô, sửa bằng dòng nước hoặc một vòng xoay rất nhẹ.',null],['0:35',192,'Rót liên tục 40–45 giây, xong khoảng 1:15–1:20. Vòng nhỏ quanh tâm; không xối sát giấy, không xoay cuối.',null]],
+        notes:['Hai lượt rót, ít tác động cơ học: lượt chính dòng liền, đầu vòi gần mặt nước nhưng không chạm nước; không cố rót chậm thành nhỏ giọt.']},
       switch: {k7:76,m40:56,water:192,temp:89,k:'3,2',time:'2:30–3:00',flow:'',
         steps:[['0:00',36,'','open'],['0:35',96,'Vẫn mở van.','open'],['1:00',192,'Đóng van, rót xong khoảng 1:25.','closed'],['1:55',null,'Mở van. Không lắc lúc ngâm.','open']],
         notes:['Đây là hybrid ngâm ngắn, không nhằm kéo tối đa độ đậm của hương lên men.']},
@@ -272,14 +273,18 @@ const COFFEES = [
   {
     id:'gedeb', name:'Ethiopia Gedeb Gotiti', roaster:'Heirloom', roast:'Natural',
     goal:'Mục tiêu: raisin/prune ngọt, floral còn rõ, body mềm; tránh kéo thành trà đen khô và vị gỗ. Không chia quá nhiều lượt rót — nếu lô này sinh nhiều fines, khuấy và kéo dài pha có thể gây hậu khô trước khi độ ngọt tốt lên.',
-    pick:'switch',
-    why:'Muốn lấy vị ngọt trái cây khô bằng thời gian tiếp xúc, nhưng không buộc phải xay thật mịn. Nếu thích floral nhẹ, kiểu trà hơn là prune tròn, chuyển ưu tiên sang Origami.',
-    adjust:[],
+    pick:'neo',
+    why:'Giữ ngọt trái cây khô mà không làm mất floral: Neo van mở + giấy Hario, hai lượt rót, không xoay cuối. Không hạ nhiệt sâu như các gói infused để còn cơ hội lấy vị raisin/prune.',
+    adjust:[
+      'Đuôi thoát kéo dài và hậu khô → nới thêm <b>2 click</b> trên cối đang dùng, giữ nguyên các biến khác.',
+      'Nếu chính gói này có vị rang rõ → <b>89–90°C</b> là lần thử tiếp theo hợp lý.',
+    ],
     recipes:{
       ct62:   {k7:68,m40:48,water:200,temp:94,k:'4,0',time:'2:35–3:10',flow:'~3,5 g/s',
         steps:[['0:00',40,'',null],['0:40',120,'',null],['1:20',200,'Không xoay cuối.',null]],notes:[]},
-      neo:    {k7:70,m40:50,water:200,temp:93,k:'3,8',time:'2:25–3:05',flow:'~4 g/s',
-        steps:[['0:00',40,'',null],['0:40',130,'',null],['1:20',200,'Không cố rót cao để kéo dài thời gian.',null]],notes:[]},
+      neo:    {k7:74,m40:52,water:198,temp:91,k:'3,2',time:'2:10–2:50',flow:'lượt chính 3,5–4 g/s · rót thấp, không nhỏ giọt kéo dài',
+        steps:[['0:00',40,'Rót trong khoảng 12 giây, phủ ướt toàn bộ cà.',null],['0:40',198,'Rót liên tục 45–50 giây, xong khoảng 1:25–1:30. Không xoay cuối, kể cả mặt bed không phẳng hoàn hảo.',null]],
+        notes:['Gói này không bị đánh đồng với các gói infused: giữ nhiệt và khoáng nhỉnh hơn để còn cơ hội lấy vị ngọt raisin/prune.']},
       switch: {k7:75,m40:54,water:200,temp:93,k:'3,6',time:'2:55–3:30',flow:'',
         steps:[['0:00',40,'','open'],['0:40',100,'Vẫn mở van.','open'],['1:10',200,'Đóng van, rót xong khoảng 1:35.','closed'],['2:15',null,'Mở van, không khuấy.','open']],
         notes:['Mức xay thô hơn các cấu hình percolation để tạo khoảng ngâm mà không phải ép nước qua bed quá mịn.']},
@@ -293,17 +298,16 @@ const COFFEES = [
   {
     id:'lemoncandy', name:'Colombia “Lemon Candy Geisha”', roaster:'Geisha', roast:'Infused & co-fermentation',
     goal:'Mục tiêu: lemon tea, grapefruit tươi, hoa thanh; ginger ở hậu vị chứ không thành cay khô. Không cố loại hết vị đắng grapefruit hay nét gừng — điều cần tránh là đắng gắt đi cùng khô miệng, không phải mọi cảm giác đắng.',
-    pick:'origami',
-    why:'Ưu tiên hướng lemon tea và hoa, thay vì làm body quá đầy. Cỡ xay vẫn vừa đủ mịn để không biến ly thành nước chanh có hương hoa.',
+    pick:'neo',
+    why:'Giữ lemon tea có ngọt, tránh chua rỗng: Neo van mở + giấy Hario, hai lượt rót. Giữ 1:16 thay vì kéo 1:17 — khi đã hạ nhiệt và khoáng, ly loãng hơn sẽ làm phần ngọt càng yếu; mục tiêu là lemon candy có ngọt, không chỉ hương chanh trên nền nước mỏng.',
     adjust:[
-      'Chua mỏng, thiếu đường → trước hết <b>+1°C</b> hoặc <b>mịn hơn 2 click</b>.',
-      'Đã ngọt nhưng acid vẫn sắc quá mức → mới thử <b>K3,2 → K3,6</b>; hiệu quả còn phụ thuộc lượng KHCO₃ trong chế phẩm.',
+      'Chua sắc nhưng không khô → tăng lên <b>90°C</b> trước; đừng tiếp tục giảm khoáng hoặc xay thô hơn.',
     ],
     recipes:{
       ct62:   {k7:66,m40:46,water:198,temp:92,k:'3,4',time:'2:25–2:55',flow:'~3,5 g/s, vòng nhỏ',
         steps:[['0:00',40,'',null],['0:40',120,'',null],['1:15',198,'Không xoay cuối.',null]],notes:[]},
-      neo:    {k7:68,m40:48,water:200,temp:91,k:'3,2',time:'2:20–2:50',flow:'~4 g/s',
-        steps:[['0:00',40,'',null],['0:40',125,'',null],['1:15',200,'Hạn chế rót sát thành.',null]],notes:[]},
+      neo:    {k7:74,m40:52,water:192,temp:89,k:'2,8',time:'1:55–2:35',flow:'lượt chính 3,5–4 g/s · rót thấp, không nhỏ giọt kéo dài',
+        steps:[['0:00',36,'Rót trong khoảng 10 giây, phủ ướt toàn bộ cà.',null],['0:35',192,'Rót liên tục 40–45 giây, xong khoảng 1:15–1:20. Dòng thấp, đều; không dùng rót cao để “đánh hương”.',null]],notes:[]},
       switch: {k7:73,m40:52,water:200,temp:90,k:'3,2',time:'2:40–3:10',flow:'',
         steps:[['0:00',40,'','open'],['0:40',100,'Vẫn mở van.','open'],['1:05',200,'Đóng van, rót xong khoảng 1:30.','closed'],['2:00',null,'Mở van.','open']],
         notes:['Dùng khi muốn vị lemon candy tròn hơn, không ngâm dài ngay từ đầu.']},
@@ -316,14 +320,16 @@ const COFFEES = [
   {
     id:'moonstone', name:'Thailand Moonstone', roaster:'TRUNK', roast:'Multi-cultured inoculated yeast',
     goal:'Mục tiêu: vải, hoa hồng, vị kẹo và body mượt; không để hương lên men lấn hết vị ngọt. Mô tả producer/profile chỉ dùng làm định hướng, không coi là bằng chứng lô này giống hoàn toàn các lô Moonstone từ xưởng khác.',
-    pick:'yearn',
-    why:'Muốn ưu tiên kẹo vải và cảm giác miệng tròn, nên chọn cấu hình đáy phẳng, 1:16, rót nhẹ. Nếu ly thực tế quá dày hương hoặc hoa hồng bị chìm, thử Origami 1:16,5 trước khi giảm nhiệt sâu.',
-    adjust:[],
+    pick:'neo',
+    why:'Giữ kẹo vải và body mềm: Neo van mở + giấy Hario, hai lượt rót. Nhiệt 90°C và K3,0 nằm giữa Monteblanco nhẹ nhiệt và Gedeb cần giữ thêm chiết xuất — không cắt quá mạnh phần ngọt và body vốn đã yếu.',
+    adjust:[
+      'Vị sạch nhưng quá nhẹ → thử <b>mịn hơn 2 click</b>, thay vì tăng cả nhiệt và khoáng cùng lúc.',
+    ],
     recipes:{
       ct62:   {k7:68,m40:48,water:192,temp:92,k:'3,8',time:'2:25–2:55',flow:'~3,5 g/s',
         steps:[['0:00',36,'',null],['0:40',112,'',null],['1:15',192,'Không xoay cuối.',null]],notes:[]},
-      neo:    {k7:71,m40:51,water:198,temp:91,k:'3,6',time:'2:20–2:50',flow:'~4 g/s',
-        steps:[['0:00',40,'',null],['0:40',120,'',null],['1:15',198,'Hướng vị nhẹ, hoa rõ hơn cấu hình 1:16.',null]],notes:[]},
+      neo:    {k7:75,m40:54,water:192,temp:90,k:'3,0',time:'2:00–2:40',flow:'lượt chính 3,5–4 g/s · rót thấp, không nhỏ giọt kéo dài',
+        steps:[['0:00',36,'Rót trong khoảng 10 giây, phủ ướt toàn bộ cà.',null],['0:40',192,'Rót liên tục 40–45 giây, xong khoảng 1:20–1:25. Vòng rót nhỏ nhưng di chuyển đều, không chọc một điểm giữa suốt lượt.',null]],notes:[]},
       switch: {k7:75,m40:54,water:192,temp:90,k:'3,4',time:'2:40–3:10',flow:'',
         steps:[['0:00',36,'','open'],['0:40',96,'Vẫn mở van.','open'],['1:05',192,'Đóng van, rót xong khoảng 1:30.','closed'],['2:00',null,'Mở van. Không khuấy.','open']],
         notes:['Dùng khi muốn body tròn nhưng không kéo quá mạnh hương men.']},
@@ -338,21 +344,19 @@ const COFFEES = [
 
 const FIRST_FIVE = [
   ['SL34 ultra-light','Neo V60, mở van','60 / 42','12:204 · 94°C · K4,2 · 40–130–204'],
-  ['Monteblanco Nectar Citrullus','Origami + V60','70 / 50','12:198 · 90°C · K3,4 · 36–120–198'],
-  ['Gedeb Gotiti Natural','Neo Switch hybrid','75 / 54','12:200 · 93°C · K3,6 · mở van cuối ở 2:15'],
-  ['Lemon Candy Geisha','Origami + V60','65 / 46','12:200 · 91°C · K3,2 · 40–120–200'],
-  ['Moonstone','Yearn 155 + lyocell','70 / 50','12:192 · 92°C · K3,8 · 36–108–192'],
+  ['Monteblanco Nectar Citrullus','Neo V60 · mở van','76 / 54','12:192 · 88°C · K2,8 · 36→192'],
+  ['Gedeb Gotiti Natural','Neo V60 · mở van','74 / 52','12:198 · 91°C · K3,2 · 40→198'],
+  ['Lemon Candy Geisha','Neo V60 · mở van','74 / 52','12:192 · 89°C · K2,8 · 36→192'],
+  ['Moonstone','Neo V60 · mở van','75 / 54','12:192 · 90°C · K3,0 · 36→192'],
 ];
 
 const DIALIN = [
-  ['Chua xanh, mỏng, hậu ngắn; nước thoát đều và nhanh','Mịn hơn <b>2 click</b> trên cối đang dùng'],
-  ['Thiếu ngọt nhưng dòng thoát đã khá chậm','Tăng <b>1°C</b>, chưa vội xay mịn'],
-  ['Khô miệng, đuôi chảy rất lâu','Giảm xoay/khuấy; nếu chưa hết, thô hơn <b>2 click</b>'],
-  ['Vừa chua vừa chát, dòng thoát thất thường','Kiểm tra bloom, rót và giấy; không mặc định là thiếu nhiệt'],
-  ['Ngon nhưng quá đậm','Thêm <b>5–10 g nước vào ly</b> để thử trước'],
-  ['Hương rõ nhưng nồng, khó uống','Thử giảm nhiệt <b>1–2°C</b> hoặc rút ngắn ngâm'],
-  ['Đã ngọt nhưng acid quá gắt','Thử tăng liều khoáng <b>0,2–0,4 g/L</b>, có đối chứng'],
-  ['Vị lì, hương citrus thiếu bật','Thử giảm liều khoáng <b>0,2–0,4 g/L</b>'],
+  ['Đắng rang rõ, nhưng không khô và không tắc','Giảm <b>1–2°C</b>'],
+  ['Khô/rít miệng, đuôi chảy lâu','Nới <b>2 click</b>, kiểm tra giấy và hạn chế xoay'],
+  ['Loãng, chua, không có vị ngọt','Tăng <b>1–2°C</b>; nếu vẫn thoát rất nhanh thì lần sau mịn hơn'],
+  ['Vừa chua vừa chát','Kiểm tra ướt đều và dòng rót, chưa vội giảm chiết xuất tiếp'],
+  ['Ngọt, sạch nhưng hơi đậm','Thêm <b>5–10 g nước vào ly</b> để thử'],
+  ['Vẫn có hậu đắng dù ly đã rất mỏng','Không tiếp tục hạ mọi thông số; có thể đang gặp giới hạn của profile rang/hạt'],
 ];
 
 const ratio = w => '1:' + (Math.round((w/12)*10)/10).toString().replace('.',',');
