@@ -30,7 +30,6 @@
   }
   .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 
-  /* ---------- Header ---------- */
   header{padding:calc(22px + env(safe-area-inset-top)) 0 24px}
   .brand{display:flex;flex-direction:column;gap:4px}
   .brand h1{
@@ -57,7 +56,6 @@
   }
   .intro b{color:var(--fg);font-weight:500}
 
-  /* ---------- Sticky controls ---------- */
   .controls{
     position:sticky;top:0;z-index:20;
     background:var(--bg);
@@ -100,12 +98,7 @@
   }
   .chip[aria-pressed="true"] .sub{color:#3d2e16}
 
-  /* ---------- Recipe article ---------- */
-  .recipe{
-    margin-top:26px;
-    background:var(--bg); /* no card bg to avoid extra cost */
-  }
-  .recipe.hidden{display:none !important}
+  .recipe{margin-top:26px}
   .recipe-head{padding-bottom:18px;border-bottom:1px solid var(--line)}
   .bean-title{
     font-family:var(--font-display);
@@ -140,7 +133,6 @@
   }
   .bean-notes b{color:var(--fg);font-weight:500}
 
-  /* ---------- Stats strip ---------- */
   .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -165,8 +157,8 @@
   }
   .stat .v{
     font-family:var(--font-display);
-    font-size:19px;
-    font-weight:500;
+    font-size:20px;
+    font-weight:700;
     color:var(--fg);
     letter-spacing:-0.01em
   }
@@ -177,7 +169,6 @@
     margin-top:2px
   }
 
-  /* ---------- Section ---------- */
   .section{margin-top:22px}
   .section h3{
     font-family:var(--font-display);
@@ -189,16 +180,7 @@
     border-left:2px solid var(--acc);
     padding-left:8px
   }
-  .section h3 .flow{
-    font-family:var(--font-ui);
-    font-weight:400;
-    color:var(--muted);
-    font-size:11px;
-    letter-spacing:0;
-    text-transform:none
-  }
 
-  /* ---------- Steps timeline ---------- */
   .steps{list-style:none;margin-top:4px}
   .step{
     display:grid;
@@ -215,7 +197,6 @@
     font-weight:600;font-size:12px;color:var(--muted)
   }
   .step .bloom .no{border-color:var(--acc);color:var(--acc)}
-  .step .valve-closed .no{border-color:var(--close);color:var(--close)}
   .step .row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .step .t{
     font-variant-numeric:tabular-nums;
@@ -239,12 +220,10 @@
   .lbl.closed{border-color:var(--close);color:var(--close)}
   .step .d{color:var(--mut);font-size:12px;margin-top:4px;line-height:1.4}
 
-  /* ---------- Notes ---------- */
   .note{font-size:12.5px;color:var(--muted);line-height:1.5}
   .note + .note{margin-top:6px}
   .note b{color:var(--fg);font-weight:500}
 
-  /* ---------- Matrix ---------- */
   #matrix{min-width:0}
   #matrix th,#matrix td{
     padding:8px 6px;
@@ -270,7 +249,6 @@
   #matrix tr.sel td:first-child{box-shadow:inset 2px 0 0 var(--acc)}
   #matrix .mstar{color:var(--acc);font-weight:700;margin-right:4px}
 
-  /* ---------- Tables ---------- */
   .scroll-wrap{
     border:1px solid var(--line);
     border-radius:var(--radius);
@@ -292,7 +270,6 @@
   tr:last-child td{border-bottom:none}
   td.num{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--fg)}
 
-  /* ---------- Details ---------- */
   details{
     background:#14110e;
     border:1px solid var(--line);
@@ -317,8 +294,6 @@
   details .body{padding:0 14px 14px;font-size:12.5px;color:var(--muted);line-height:1.5}
   details .body p + p{margin-top:8px}
   details .body b{color:var(--fg);font-weight:500}
-  details .body ul{margin:6px 0 0 18px}
-  details .body li{margin-top:4px}
 
   h2.block{
     font-family:var(--font-display);
@@ -699,7 +674,7 @@ function totalWater(r){ return r.hotWater + r.ice; }
 
 function ratio(w){ return '1:' + (Math.round((w/DOSE)*10)/10).toString().replace('.',','); }
 
-function buildRecipeHTML(c, d, r){
+function renderRecipeHTML(c, d, r){
   const isPick = c.pick === state.dripper;
   const pickD = DRIPPERS.find(x=>x.id===c.pick);
   const pr = c.recipes[c.pick];
@@ -739,7 +714,7 @@ function buildRecipeHTML(c, d, r){
   }).join('');
 
   return `
-  <article class="recipe recipe-${c.id}-${state.dripper}">
+  <article class="recipe">
     <div class="recipe-head">
       <div class="bean-title">${c.name}</div>
       <div class="bean-meta">
@@ -767,7 +742,7 @@ function buildRecipeHTML(c, d, r){
 
     <div class="section">
       <h3>So nhanh 6 kiểu pha<span class="flow"> · ${c.name.replace(/^Colombia |^Kenya /,'')}</span></h3>
-      <table id="matrix-${c.id}-${d.id}">
+      <table id="matrix">
         <thead><tr><th>Kiểu pha</th><th>C40 thường</th><th>C40 Red Clix</th><th>Nước</th><th>Nhiệt</th><th>Khoáng</th><th>Finish</th></tr></thead>
         <tbody>${matrix}</tbody>
       </table>
@@ -791,12 +766,12 @@ function buildRecipeHTML(c, d, r){
 
 function valveLbl(v){ return v==='open' ? '<span class="lbl open">van mở</span>' : '<span class="lbl closed">van đóng</span>'; }
 
-/* Build all recipe HTML once at load */
+/* Pre-render all recipes */
 const recipeHTML = {};
 COFFEES.forEach(c => {
   DRIPPERS.forEach(d => {
     const r = c.recipes[d.id];
-    recipeHTML[`${c.id}-${d.id}`] = buildRecipeHTML(c, d, r);
+    recipeHTML[`${c.id}-${d.id}`] = renderRecipeHTML(c, d, r);
   });
 });
 
@@ -828,8 +803,7 @@ function render(){
   const d = DRIPPERS.find(x=>x.id===state.dripper);
   const key = `${c.id}-${d.id}`;
 
-  // Switch recipe article (instant swap)
-  document.querySelectorAll('.recipe').forEach(el=>el.classList.add('hidden'));
+  document.querySelectorAll('.recipe').forEach(el=>el.style.display='none');
   let el = document.getElementById(`recipe-${key}`);
   if(!el){
     el = document.createElement('div');
@@ -838,9 +812,8 @@ function render(){
     el.innerHTML = recipeHTML[key];
     document.getElementById('recipe').appendChild(el);
   }
-  el.classList.remove('hidden');
+  el.style.display = '';
 
-  // Re-render static tables (these are small and cheap)
   document.querySelector('#firstFive tbody').innerHTML = COFFEES.map(c=>{
     const pr = c.recipes[c.pick];
     const pickD = DRIPPERS.find(d=>d.id===c.pick);
@@ -870,7 +843,6 @@ function render(){
     'Nước khoáng: 4 g dung dịch pha sẵn / 1 L Aquafina (~70–80 ppm), giữ nguyên cho mọi cốc. Đá: làm từ nước Aquafina đã khoáng hóa, 70 g trong server đã mát.',
   ].map(n=>`<p>${n}</p>`).join('');
 
-  // Re-bind matrix row clicks for the currently shown matrix
   document.querySelectorAll('#matrix tbody tr').forEach(tr=>{
     tr.onclick = ()=>{ state.dripper = tr.dataset.id; renderAll(); };
   });
@@ -880,6 +852,16 @@ function renderAll(){
   renderChips();
   render();
 }
+
+function fmtWater(r){
+  return r.ice>0 ? `${r.hotWater} g + ${r.ice} g đá` : `${r.hotWater} g`;
+}
+
+function totalWater(r){ return r.hotWater + r.ice; }
+
+function ratio(w){ return '1:' + (Math.round((w/DOSE)*10)/10).toString().replace('.',','); }
+
+let state = {coffee:'karina', dripper:'switch-hot'};
 
 renderAll();
 </script>
