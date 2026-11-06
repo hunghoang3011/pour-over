@@ -4,171 +4,398 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pour Over · 18 Công Thức</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
+  /* Editorial palette — restrained, warm, intentional */
   :root{
-    --bg:#14100c; --bg2:#1e1812; --card:#221b14; --line:#3a2f23;
-    --txt:#f2e9dd; --mut:#b3a48f; --acc:#e8a04c; --acc2:#7fb98a;
-    --star:#f0c040; --close:#e06c5c; --radius:16px;
+    --bg:#0b0a09;       /* deep black, coffee bean */
+    --fg:#e8e2d8;       /* warm off-white body */
+    --muted:#8f7e70;    /* warm gray for secondary text */
+    --acc:#c9a25a;      /* coffee gold — single accent */
+    --acc-dim:rgba(201,162,90,0.10);
+    --line:#26211c;     /* subtle divider */
+    --close:#a54d3c;    /* valve closed — restrained red */
+    --close-dim:rgba(165,77,60,0.10);
+    --radius:6px;       /* small, sharp radius only */
+    --font-ui:'Inter', system-ui, -apple-system, sans-serif;
+    --font-display:'Lora', Georgia, serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{
-    background:var(--bg); color:var(--txt);
-    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    padding-bottom:calc(32px + env(safe-area-inset-bottom));
+    background:var(--bg);
+    color:var(--fg);
+    font-family:var(--font-ui);
+    font-size:15px;
+    line-height:1.55;
+    padding-bottom:calc(40px + env(safe-area-inset-bottom));
   }
-  .wrap{max-width:760px;margin:0 auto;padding:0 14px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 
-  header{padding:calc(18px + env(safe-area-inset-top)) 0 10px}
-  header h1{font-size:22px;letter-spacing:.3px}
-  header h1 em{color:var(--acc);font-style:normal}
-  header p{color:var(--mut);font-size:13.5px;margin-top:4px}
-  .banner{
-    margin-top:10px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;
-    background:var(--bg2);color:var(--mut);font-size:13px
+  /* ---------- Header ---------- */
+  header{padding:calc(22px + env(safe-area-inset-top)) 0 24px}
+  .brand{
+    display:flex;flex-direction:column;gap:4px
   }
-  .banner b{color:var(--acc)}
+  .brand h1{
+    font-family:var(--font-display);
+    font-size:26px;
+    font-weight:500;
+    letter-spacing:-0.02em;
+    color:var(--fg)
+  }
+  .brand h1 em{font-style:normal;color:var(--acc)}
+  .brand p{
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:0.04em;
+    text-transform:uppercase
+  }
+  .intro{
+    margin-top:14px;
+    font-size:12.5px;
+    color:var(--muted);
+    line-height:1.5;
+    border-top:1px solid var(--line);
+    padding-top:12px
+  }
+  .intro b{color:var(--fg);font-weight:500}
 
-  .sticky{
-    position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    padding:10px 0 8px;border-bottom:1px solid var(--line)
+  /* ---------- Sticky controls ---------- */
+  .controls{
+    position:sticky;top:0;z-index:20;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    padding:10px 0
   }
-  .group-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);margin:6px 2px 6px}
-  .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .controls-inner{display:flex;flex-direction:column;gap:10px}
+  .group{
+    display:flex;flex-direction:column;gap:6px
+  }
+  .group-label{
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--muted)
+  }
+  .chips{
+    display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none
+  }
   .chips::-webkit-scrollbar{display:none}
   .chip{
-    flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--txt);
-    border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;white-space:nowrap;
-    min-height:40px;touch-action:manipulation;text-align:left
+    flex:0 0 auto;
+    border:1px solid var(--line);
+    background:#14110e;
+    color:var(--fg);
+    border-radius:var(--radius);
+    padding:8px 12px;
+    font-size:13px;
+    font-weight:500;
+    cursor:pointer;
+    white-space:nowrap;
+    min-height:40px;
+    transition:border-color 0.15s,background 0.15s,color 0.15s
   }
-  .chip .sub{display:block;font-size:11px;color:var(--mut);line-height:1.25}
-  .chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#1a1208;font-weight:600}
-  .chip[aria-pressed="true"] .sub{color:#4a3418}
-  .chip .star{color:var(--star)}
-  .chip[aria-pressed="true"] .star{color:#7a5a00}
-
-  .recipe{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-  .recipe-head{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
-  .recipe-head h2{font-size:19px;line-height:1.3}
-  .recipe-head .tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
-  .tag{font-size:12px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
-  .pick-badge{
-    display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:#1a1208;
-    background:var(--star);border-radius:999px;padding:3px 10px
+  .chip .sub{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:2px}
+  .chip[aria-pressed="true"]{
+    background:var(--acc);
+    border-color:var(--acc);
+    color:#0b0a09;
+    font-weight:600
   }
-  .goal{color:var(--mut);font-size:13.5px;margin-top:8px}
+  .chip[aria-pressed="true"] .sub{color:#3d2e16}
+  .chip .star{color:#7a5a00;margin-right:4px;font-size:11px}
 
-  /* 6 ô thông số chính — tra nhanh */
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
-  .stat{background:var(--bg2);padding:11px 8px;text-align:center}
-  .stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
-  .stat .v{font-size:20px;font-weight:700;margin-top:1px;font-variant-numeric:tabular-nums;line-height:1.2}
-  .stat .u{font-size:11.5px;color:var(--mut);font-weight:400;display:block}
+  /* ---------- Recipe article ---------- */
+  .recipe{margin-top:26px}
+  .recipe-head{padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .bean-title{
+    font-family:var(--font-display);
+    font-size:20px;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--fg)
+  }
+  .bean-meta{
+    margin-top:6px;
+    display:flex;flex-wrap:wrap;gap:8px;align-items:baseline
+  }
+  .bean-meta span{
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:0.05em;
+    text-transform:uppercase
+  }
+  .bean-meta .pick{
+    color:var(--acc);
+    font-weight:600
+  }
+  .goal{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--fg);
+    font-style:italic
+  }
+  .goal::before{content:'“';font-size:20px;line-height:0.8;vertical-align:-0.1em;margin-right:4px;color:var(--muted)}
+  .goal::after{content:'”';font-size:20px;line-height:0.8;vertical-align:-0.1em;margin-left:4px;color:var(--muted)}
+  .bean-notes{
+    margin-top:12px;
+    font-size:12.5px;
+    color:var(--muted);
+    line-height:1.5
+  }
+  .bean-notes b{color:var(--fg);font-weight:500}
 
-  .section{padding:14px 16px}
-  .section + .section{border-top:1px solid var(--line)}
-  .section h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--acc);margin-bottom:10px}
-  .section h3 .flow{color:var(--mut);text-transform:none;letter-spacing:0;font-weight:400}
+  /* ---------- Stats strip ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    margin:20px 0
+  }
+  .stat{
+    background:#14110e;
+    padding:14px 10px;
+    text-align:center;
+    border-top:1px solid var(--line)
+  }
+  .stat:first-child{border-top:none}
+  .stat .k{
+    font-size:9.5px;
+    font-weight:600;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:4px
+  }
+  .stat .v{
+    font-family:var(--font-display);
+    font-size:19px;
+    font-weight:500;
+    color:var(--fg);
+    letter-spacing:-0.01em
+  }
+  .stat .u{
+    font-size:10px;
+    color:var(--muted);
+    display:block;
+    margin-top:2px
+  }
 
-  /* Timeline phase rót */
-  .steps{list-style:none}
+  /* ---------- Section ---------- */
+  .section{margin-top:22px}
+  .section h3{
+    font-family:var(--font-display);
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--fg);
+    margin-bottom:10px;
+    border-left:2px solid var(--acc);
+    padding-left:8px
+  }
+  .section h3 .flow{
+    font-family:var(--font-ui);
+    font-weight:400;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:0;
+    text-transform:none
+  }
+
+  /* ---------- Steps timeline ---------- */
+  .steps{list-style:none;margin-top:4px}
   .step{
-    display:grid;grid-template-columns:34px 1fr;gap:10px;padding:10px 0;
+    display:grid;
+    grid-template-columns:36px 1fr;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line)
   }
-  .step + .step{border-top:1px dashed var(--line)}
+  .step:last-child{border-bottom:none}
+  .step.no-line{border-bottom:none}
   .step .no{
-    width:30px;height:30px;border-radius:50%;border:1.5px solid var(--acc);color:var(--acc);
-    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-top:2px
+    width:30px;height:30px;border:1px solid var(--line);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:600;font-size:12px;color:var(--muted)
   }
-  .step.valve-phase .no{border-color:var(--close);color:var(--close)}
-  .step .row1{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .step .t{font-variant-numeric:tabular-nums;font-weight:700;color:var(--txt);font-size:15px}
-  .step .add{font-size:19px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
-  .step .cum{color:var(--mut);font-size:13px;font-variant-numeric:tabular-nums}
+  .step .bloom .no{border-color:var(--acc);color:var(--acc)}
+  .step .valve-closed .no{border-color:var(--close);color:var(--close)}
+  .step .row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .step .t{
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    color:var(--fg);
+    font-size:14px;
+    white-space:nowrap
+  }
+  .step .add{font-size:16px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
+  .step .cum{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
   .step .lbl{
-    font-size:11.5px;font-weight:600;border-radius:6px;padding:1px 7px;letter-spacing:.02em
+    font-size:9.5px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:1px 6px;
+    border:1px solid;
+    border-radius:3px
   }
-  .lbl.bloom{background:#2e251a;color:var(--acc);border:1px solid var(--line)}
-  .lbl.open{background:rgba(127,185,138,.12);color:var(--acc2);border:1px solid rgba(127,185,138,.35)}
-  .lbl.closed{background:rgba(224,108,92,.12);color:var(--close);border:1px solid rgba(224,108,92,.35)}
-  .step .d{color:var(--mut);font-size:13.5px;margin-top:3px}
+  .lbl.bloom{border-color:var(--acc);color:var(--acc)}
+  .lbl.closed{border-color:var(--close);color:var(--close)}
+  .step .d{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
 
-  .note{font-size:14px}
-  .note + .note{margin-top:8px}
-  .note.mut{color:var(--mut)}
-  .note b{color:var(--acc)}
+  /* ---------- Notes ---------- */
+  .note{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .note + .note{margin-top:6px}
+  .note b{color:var(--fg);font-weight:500}
 
-  h2.block{font-size:17px;margin:26px 2px 10px}
-  .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}
-  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;background:var(--card)}
-  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-  th{background:var(--bg2);color:var(--acc);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
-  tr:last-child td{border-bottom:none}
-  td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
-
-  /* Ma trận 6 kiểu pha của hạt đang chọn */
+  /* ---------- Matrix ---------- */
   #matrix{min-width:0}
-  #matrix th,#matrix td{padding:8px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
-  #matrix tbody tr{cursor:pointer}
-  #matrix tbody tr:active{background:var(--bg2)}
-  #matrix tr.sel td{background:rgba(232,160,76,.10)}
-  #matrix tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
-  #matrix .mstar{color:var(--star)}
+  #matrix th,#matrix td{
+    padding:8px 6px;
+    font-size:12px;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums
+  }
+  #matrix th{
+    font-family:var(--font-ui);
+    font-weight:600;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:left;
+    border-bottom:1px solid var(--line);
+    padding-bottom:6px
+  }
+  #matrix td{border-bottom:1px solid var(--line);color:var(--fg)}
+  #matrix tr{cursor:pointer}
+  #matrix tr:active{background:#14110e}
+  #matrix tr.sel td{background:var(--acc-dim)}
+  #matrix tr.sel td:first-child{box-shadow:inset 2px 0 0 var(--acc)}
+  #matrix .mstar{color:var(--acc);font-weight:700;margin-right:4px}
 
-  details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+  /* ---------- Tables ---------- */
+  .scroll-wrap{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin-top:8px
+  }
+  table{border-collapse:collapse;width:100%;font-size:12.5px;background:#14110e}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{
+    font-family:var(--font-ui);
+    font-weight:600;
+    font-size:9.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    background:#0b0a09;
+    white-space:nowrap
+  }
+  tr:last-child td{border-bottom:none}
+  td.num{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--fg)}
+  td.muted{color:var(--muted)}
+
+  /* ---------- Details ---------- */
+  details{
+    background:#14110e;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-top:16px;
+    overflow:hidden
+  }
   summary{
-    cursor:pointer;padding:13px 14px;font-weight:600;font-size:14.5px;list-style:none;
-    display:flex;justify-content:space-between;align-items:center;min-height:44px
+    cursor:pointer;
+    padding:12px 14px;
+    font-weight:600;
+    font-size:13px;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:var(--fg)
   }
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";color:var(--acc);font-size:18px;font-weight:400}
+  summary::after{content:"+";color:var(--acc);font-size:16px;font-weight:400}
   details[open] summary::after{content:"–"}
-  details .body{padding:0 14px 14px;font-size:14px;color:var(--mut)}
+  details .body{padding:0 14px 14px;font-size:12.5px;color:var(--muted);line-height:1.5}
   details .body p + p{margin-top:8px}
-  details .body b{color:var(--txt)}
+  details .body b{color:var(--fg);font-weight:500}
   details .body ul{margin:6px 0 0 18px}
-  details .body li{margin-top:5px}
+  details .body li{margin-top:4px}
 
-  footer{margin-top:28px;color:var(--mut);font-size:12.5px;text-align:center}
+  h2.block{
+    font-family:var(--font-display);
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--fg);
+    margin:30px 0 10px
+  }
+  footer{
+    margin-top:34px;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    text-align:center;
+    border-top:1px solid var(--line);
+    padding-top:14px
+  }
+
+  /* Mobile adjustments */
+  @media (max-width:480px){
+    .brand h1{font-size:22px}
+    .stats{grid-template-columns:1fr}
+    .step{grid-template-columns:34px 1fr}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>Pour Over <em>· 18 công thức</em></h1>
-    <p>3 hạt × 6 kiểu pha · dose 15 g · cối C40</p>
-    <div class="banner">Đây là <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử. Số nước trong lịch rót là <b>cộng dồn trên cân</b>; mốc giờ là lúc <b>bắt đầu</b> lượt rót; nhiệt độ là nước trong ấm lúc bắt đầu pha; <b>tăng click = xay thô hơn.</b> Thời gian chỉ để tham khảo — không ép ly chảy đúng giờ nếu nó đã ngọt và sạch.</div>
+    <div class="brand">
+      <h1>Pour Over <em>· 18 công thức</em></h1>
+      <p>3 hạt × 6 kiểu pha · dose 15 g · cối C40</p>
+    </div>
+    <div class="intro">Đây là <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử. Số nước trong lịch rót là <b>cộng dồn trên cân</b>; mốc giờ là lúc <b>bắt đầu</b> lượt rót; nhiệt độ là nước trong ấm lúc bắt đầu pha; <b>tăng click = xay thô hơn.</b> Thời gian chỉ để tham khảo — không ép ly chảy đúng giờ nếu nó đã ngọt và sạch.</div>
   </header>
 
-  <div class="sticky">
-    <div class="group-label">Hạt</div>
-    <div class="chips" id="coffeeChips" role="group" aria-label="Chọn hạt"></div>
-    <div class="group-label">Kiểu pha · ★ = ưu tiên thử cho hạt này</div>
-    <div class="chips" id="dripperChips" role="group" aria-label="Chọn kiểu pha"></div>
+  <div class="controls">
+    <div class="controls-inner">
+      <div class="group">
+        <div class="group-label">Hạt</div>
+        <div class="chips" id="coffeeChips" role="group" aria-label="Chọn hạt"></div>
+      </div>
+      <div class="group">
+        <div class="group-label">Kiểu pha · ★ = ưu tiên thử</div>
+        <div class="chips" id="dripperChips" role="group" aria-label="Chọn kiểu pha"></div>
+      </div>
+    </div>
   </div>
 
   <main id="recipe"></main>
 
   <h2 class="block">Ưu tiên thử — đánh giá thiết kế, không phải điểm ném</h2>
-  <div class="scroll-x"><table id="firstFive">
+  <div class="scroll-wrap"><table id="firstFive">
     <thead><tr><th>Hạt</th><th>Kiểu pha ưu tiên</th><th>C40 thường / Red Clix</th><th>Nước · nhiệt · ratio</th><th>Finish thử</th></tr></thead>
     <tbody></tbody>
   </table></div>
 
   <h2 class="block">Dial sau cốc đầu — chỉ đổi một biến mỗi lần</h2>
-  <div class="scroll-x"><table id="dialin"><tbody></tbody></table></div>
+  <div class="scroll-wrap"><table id="dialin"><tbody></tbody></table></div>
 
   <details>
     <summary>Quy ước chung</summary>
-    <div class="body">
-      <p>Dose: 15 g cà phê cho mọi cấu hình. C40: ghi click THƯỜNG và Red Clix riêng (Red Clix = thường × 2). Đếm từ zero theo hướng dẫn C40; không siết mạnh hai burr.</p>
-      <p>V60: Bincoo size 2 Tritan + Lyocell V60; nếu dùng đế van thì van MỞ xuyên suốt. Không thêm ngâm trong bản V60 thường.</p>
-      <p>Switch: giả định dùng bowl Tritan có gân với đế van tương thích. Bloom van mở, đóng van ngay trước main pour, mở đúng mốc rồi xả hết tự nhiên.</p>
-      <p>Flat: Yearntour 155 thủy glass no-rib + Lyocell 155. Đặt giấy tự nhiên, không ép sát thành, không làm xệ/bịt đáy.</p>
-      <p>Bloom 45 g từ 0:00 đến 0:10, vòng nhỏ làm ướt đều toàn bed. Main pour: dòng liền, thấp, vòng nhỏ vùng giữa; không khoan một điểm cố định, không quét sát giấy. Không final swirl/gõ phễu.</p>
-      <p>Nước khoáng: 4 g dung dịch pha sẵn / 1 L Aquafina (~70–80 ppm), giữ nguyên cho mọi cốc. Đá: làm từ nước Aquafina đã khoáng hóa, 70 g trong server đã mát.</p>
-    </div>
+    <div class="body" id="commonNotes"></div>
   </details>
 
   <details>
@@ -380,6 +607,15 @@ const DIALIN = [
 const DOSE = 15;
 const MINERAL = '4 g/L Aquafina (~70–80 ppm)';
 
+const COMMON_NOTES = [
+  'Dose: 15 g cà phê cho mọi cấu hình. C40: ghi click THƯỜNG và Red Clix riêng (Red Clix = thường × 2). Đếm từ zero theo hướng dẫn C40; không siết mạnh hai burr.',
+  'V60: Bincoo size 2 Tritan + Lyocell V60; nếu dùng đế van thì van MỞ xuyên suốt. Không thêm ngâm trong bản V60 thường.',
+  'Switch: giả định dùng bowl Tritan có gân với đế van tương thích. Bloom van mở, đóng van ngay trước main pour, mở đúng mốc rồi xả hết tự nhiên.',
+  'Flat: Yearntour 155 thủy glass no-rib + Lyocell 155. Đặt giấy tự nhiên, không ép sát thành, không làm xệ/bịt đáy.',
+  'Bloom 45 g từ 0:00 đến 0:10, vòng nhỏ làm ướt đều toàn bed. Main pour: dòng liền, thấp, vòng nhỏ vùng giữa; không khoan một điểm cố định, không quét sát giấy. Không final swirl/gõ phễu.',
+  'Nước khoáng: 4 g dung dịch pha sẵn / 1 L Aquafina (~70–80 ppm), giữ nguyên cho mọi cốc. Đá: làm từ nước Aquafina đã khoáng hóa, 70 g trong server đã mát.',
+];
+
 let state = {coffee:'karina', dripper:'switch-hot'};
 try{
   const s = JSON.parse(localStorage.getItem('pourover')||'null');
@@ -412,7 +648,17 @@ function totalWater(r){ return r.hotWater + r.ice; }
 
 function ratio(w){ return '1:' + (Math.round((w/DOSE)*10)/10).toString().replace('.',','); }
 
-function valveLbl(v){ return v==='open' ? '<span class="lbl open">van mở</span>' : '<span class="lbl closed">van đóng</span>'; }
+function valveLbl(v){
+  if(v==='open') return '<span class="lbl bloom">van mở</span>';
+  return '<span class="lbl closed">van đóng</span>';
+}
+
+function stepClass(valve, isBloom){
+  let cls = '';
+  if(isBloom) cls += 'bloom ';
+  if(valve==='closed') cls += 'valve-closed';
+  return cls.trim();
+}
 
 function renderRecipe(){
   const c = COFFEES.find(x=>x.id===state.coffee);
@@ -427,14 +673,13 @@ function renderRecipe(){
     const add = w==null ? null : w - prev;
     if(w!=null) prev = w;
     const isBloom = i===0;
-    const cls = valve==='closed' ? 'step valve-phase' : 'step';
-    return `<li class="${cls}">
+    const cls = stepClass(valve, isBloom);
+    return `<li class="step ${cls}">
       <span class="no">${isBloom?'❋':i+1}</span>
       <span>
-        <span class="row1">
+        <span class="row">
           <span class="t">${t}</span>
           ${add!=null?`<span class="add">+${add} g</span><span class="cum">→ ${w} g</span>`:''}
-          ${isBloom?'<span class="lbl bloom">bloom</span>':''}
           ${valve?valveLbl(valve):''}
         </span>
         ${note?`<div class="d">${note}</div>`:''}
@@ -450,7 +695,7 @@ function renderRecipe(){
       <td class="num">${rr.m40}</td>
       <td class="num">${fmtWater(rr)}</td>
       <td class="num">${rr.temp}°C</td>
-      <td class="num">${MINERAL}</td>
+      <td class="num muted">${MINERAL}</td>
       <td class="num">${rr.time}</td>
     </tr>`;
   }).join('');
@@ -459,45 +704,48 @@ function renderRecipe(){
   document.getElementById('recipe').innerHTML = `
   <article class="recipe">
     <div class="recipe-head">
-      <h2>${c.name}</h2>
-      <div class="tags">
-        <span class="tag">${c.roaster}</span>
-        <span class="tag">${c.roast}</span>
-        <span class="tag">${d.name}</span>
-        ${isPick?'<span class="pick-badge">★ Ưu tiên thử</span>':''}
+      <div class="bean-title">${c.name}</div>
+      <div class="bean-meta">
+        <span>${c.roaster}</span>
+        <span>${c.roast}</span>
+        <span class="pick">${d.name}</span>
       </div>
       <p class="goal">${c.goal}</p>
-      <p class="note mut"><b>Hương:</b> ${c.tasting}</p>
-      <p class="note mut"><b>Lưu ý hạt:</b> ${c.beanNote}</p>
+      <div class="bean-notes"><b>Hương:</b> ${c.tasting}</div>
+      <div class="bean-notes"><b>Lưu ý hạt:</b> ${c.beanNote}</div>
     </div>
+
     <div class="stats">
-      <div class="stat"><div class="k">C40 thường</div><div class="v">${r.k7}<span class="u">click từ zero</span></div></div>
-      <div class="stat"><div class="k">C40 Red Clix</div><div class="v">${r.m40}<span class="u">click</span></div></div>
-      <div class="stat"><div class="k">Nước</div><div class="v">${fmtWater(r)}<span class="u">· ${ratio(tw)}</span></div></div>
-      <div class="stat"><div class="k">Nhiệt độ</div><div class="v">${r.temp}<span class="u">°C trong ấm</span></div></div>
-      <div class="stat"><div class="k">Khoáng</div><div class="v">${MINERAL}<span class="u">giữ nguyên mọi cốc</span></div></div>
-      <div class="stat"><div class="k">Finish thử</div><div class="v" style="font-size:17px;padding-top:2px">${r.time}<span class="u">tham khảo</span></div></div>
+      <div class="stat"><div class="k">C40 thường</div><div class="v">${r.k7}</div><div class="u">click từ zero</div></div>
+      <div class="stat"><div class="k">C40 Red Clix</div><div class="v">${r.m40}</div><div class="u">click</div></div>
+      <div class="stat"><div class="k">Nước</div><div class="v">${fmtWater(r)}</div><div class="u">· ${ratio(tw)}</div></div>
+      <div class="stat"><div class="k">Nhiệt độ</div><div class="v">${r.temp}</div><div class="u">°C trong ấm</div></div>
+      <div class="stat"><div class="k">Khoáng</div><div class="v">${MINERAL}</div><div class="u">giữ nguyên mọi cốc</div></div>
+      <div class="stat"><div class="k">Finish thử</div><div class="v">${r.time}</div><div class="u">tham khảo</div></div>
     </div>
+
     <div class="section">
-      <h3>Lịch rót · 15 g → ${tw} g ${r.flow?`<span class="flow">· ${r.flow}</span>`:''}</h3>
+      <h3>Lịch rót · 15 g → ${tw} g${r.flow?`<span class="flow"> · ${r.flow}</span>`:''}</h3>
       <ol class="steps">${steps}</ol>
     </div>
+
     <div class="section">
-      <h3>So nhanh 6 kiểu pha · ${c.name.replace(/^Colombia |^Kenya /,'')}</h3>
-      <div class="scroll-x" style="border:none;border-radius:0">
+      <h3>So nhanh 6 kiểu pha<span class="flow"> · ${c.name.replace(/^Colombia |^Kenya /,'')}</span></h3>
       <table id="matrix">
         <thead><tr><th>Kiểu pha</th><th>C40 thường</th><th>C40 Red Clix</th><th>Nước</th><th>Nhiệt</th><th>Khoáng</th><th>Finish</th></tr></thead>
         <tbody>${matrix}</tbody>
       </table>
-      </div>
     </div>
+
     <div class="section">
       <h3>Lưu ý</h3>
       ${r.notes.map(n=>`<p class="note">${n}</p>`).join('')}
-      <p class="note mut"><b>Chuẩn bị phễu:</b> ${d.prep}</p>
-      ${!isPick?`<p class="note mut">★ Với hạt này, ưu tiên thử là <b>${pickD.name}</b> — C40 ${pr.k7} / ${pr.m40} · ${pr.temp}°C · ${MINERAL}.</p>`:''}
+      <p class="note"><b>Chuẩn bị phễu:</b> ${d.prep}</p>
+      ${!isPick?`<p class="note">★ Với hạt này, ưu tiên thử là <b>${pickD.name}</b> — C40 ${pr.k7} / ${pr.m40} · ${pr.temp}°C · ${MINERAL}.</p>`:''}
     </div>
+
     ${c.adjust.length?`<div class="section"><h3>Chỉnh riêng cho hạt này</h3>${c.adjust.map(a=>`<p class="note">${a}</p>`).join('')}</div>`:''}
+
     <div class="section">
       <h3>Vì sao pick ${pickD.name}?</h3>
       <p class="note">${c.why}</p>
@@ -516,7 +764,7 @@ function renderTables(){
     const pickD = DRIPPERS.find(d=>d.id===c.pick);
     const tw = totalWater(pr);
     return `<tr>
-      <td>${c.name}<br><span class="mut" style="font-size:12px">${c.tasting}</span></td>
+      <td>${c.name}<br><span class="muted" style="font-size:11px">${c.tasting}</span></td>
       <td>${pickD.name}</td>
       <td class="num">${pr.k7} / ${pr.m40}</td>
       <td class="num">${fmtWater(pr)} · ${pr.temp}°C · ${ratio(tw)}</td>
@@ -534,12 +782,17 @@ function renderBeanNotes(){
   ).join('');
 }
 
+function renderCommonNotes(){
+  document.getElementById('commonNotes').innerHTML = COMMON_NOTES.map(n=>`<p>${n}</p>`).join('');
+}
+
 function save(){ try{localStorage.setItem('pourover',JSON.stringify(state));}catch(e){} }
 function renderAll(){ renderChips(); renderRecipe(); }
 
 renderAll();
 renderTables();
 renderBeanNotes();
+renderCommonNotes();
 </script>
 </body>
 </html>
