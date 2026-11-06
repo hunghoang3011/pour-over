@@ -1,0 +1,128 @@
+@import 'tailwindcss';
+
+/* ================================================================
+   POUR OVER PRO — design tokens (Tailwind 4, CSS-first)
+   Ngôn ngữ hình ảnh: giấy in ấm, mực đậm, kẻ hairline.
+   MỘT màu nhấn terracotta. Theme chuyển bằng data-theme trên <html>
+   (CSS var đổi giá trị → mọi utility bg-paper/text-ink… tự re-theme).
+   ================================================================ */
+
+@theme {
+  /* Giấy & mực — light (mặc định) */
+  --color-paper: #f5f0e6;
+  --color-paper-2: #fbf8f1;
+  --color-paper-3: #efe8d9;
+  --color-ink: #211b12;
+  --color-ink-2: #4d4536;
+  --color-mut: #7c7260;
+  --color-hair: #ddd3bf;
+  --color-hair-2: #e9e1d0;
+  --color-acc: #a14e1e;
+  --color-green: #3e7a52;
+  --color-red: #b04a2e;
+  --color-ice: #4e7a96;
+
+  /* Chữ */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* Dark theme: GHI ĐÈ GIÁ TRỊ TOKEN, không thêm class dark: vào component
+   trừ khi cần đổi CẤU TRÚC (ẩn/hiện). Xem CONVENTIONS.md §Tailwind. */
+[data-theme='dark'] {
+  --color-paper: #161310;
+  --color-paper-2: #1d1915;
+  --color-paper-3: #242019;
+  --color-ink: #ede4d3;
+  --color-ink-2: #c9bda6;
+  --color-mut: #9a8f7c;
+  --color-hair: #362e22;
+  --color-hair-2: #2b251c;
+  --color-acc: #d9914e;
+  --color-green: #84ae8f;
+  --color-red: #d47f63;
+  --color-ice: #7fa0bc;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hạt giấy nhiễu — đè toàn trang, không chặn thao tác */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-theme='dark'] body::before {
+  mix-blend-mode: screen;
+  opacity: 0.06;
+}
+
+@layer components {
+  /* Nhãn nhỏ in hoa — dùng cho mọi nhãn overline */
+  .overline {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mut);
+  }
+  /* Đoạn overline có số/thông tin cần giữ nguyên chữ thường (vd '· 15 g → 240 g') */
+  .nt {
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--color-ink-2);
+  }
+}
+
+/* Thanh cuộn mảnh cho bảng cuộn ngang */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-hair) transparent;
+}
+
+/* Focus bàn phím nhất quán */
+:focus-visible {
+  outline: 2px solid var(--color-acc);
+  outline-offset: 2px;
+}
+
+/* range input player: rỗng vỏ, chồng lên track tự vẽ */
+input[type='range'] {
+  height: 24px;
+}
+input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--color-acc);
+  border: 2px solid var(--color-paper-2);
+  cursor: pointer;
+}
+input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--color-acc);
+  border: 2px solid var(--color-paper-2);
+  cursor: pointer;
+}
+
+/* details/summary: xoay dấu +/− theo trạng thái mở */
+details summary::-webkit-details-marker {
+  display: none;
+}
