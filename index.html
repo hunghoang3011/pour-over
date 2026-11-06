@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pour Over · 24 Công Thức</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,8 +123,6 @@
     color:var(--fg);
     font-style:italic
   }
-  .goal::before{content:'“';font-size:20px;line-height:0.8;vertical-align:-0.1em;margin-right:4px;color:var(--muted)}
-  .goal::after{content:'”';font-size:20px;line-height:0.8;vertical-align:-0.1em;margin-left:4px;color:var(--muted)}
   .bean-notes{
     margin-top:12px;
     font-size:12.5px;
@@ -152,19 +150,19 @@
     font-weight:600;
     letter-spacing:0.12em;
     text-transform:uppercase;
-    color:var(--mut);
+    color:var(--muted);
     margin-bottom:4px
   }
   .stat .v{
     font-family:var(--font-display);
     font-size:20px;
-    font-weight:700;
+    font-weight:500;
     color:var(--fg);
     letter-spacing:-0.01em
   }
   .stat .u{
     font-size:10px;
-    color:var(--mut);
+    color:var(--muted);
     display:block;
     margin-top:2px
   }
@@ -206,7 +204,7 @@
     white-space:nowrap
   }
   .step .add{font-size:16px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
-  .step .cum{color:var(--mut);font-size:12px;font-variant-numeric:tabular-nums}
+  .step .cum{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
   .step .lbl{
     font-size:9.5px;
     font-weight:600;
@@ -218,7 +216,7 @@
   }
   .lbl.bloom{border-color:var(--acc);color:var(--acc)}
   .lbl.closed{border-color:var(--close);color:var(--close)}
-  .step .d{color:var(--mut);font-size:12px;margin-top:4px;line-height:1.4}
+  .step .d{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.4}
 
   .note{font-size:12.5px;color:var(--muted);line-height:1.5}
   .note + .note{margin-top:6px}
@@ -237,7 +235,7 @@
     font-size:10px;
     letter-spacing:0.1em;
     text-transform:uppercase;
-    color:var(--mut);
+    color:var(--muted);
     text-align:left;
     border-bottom:1px solid var(--line);
     padding-bottom:6px
@@ -263,7 +261,7 @@
     font-size:9.5px;
     letter-spacing:0.12em;
     text-transform:uppercase;
-    color:var(--mut);
+    color:var(--muted);
     background:#0b0a09;
     white-space:nowrap
   }
@@ -775,9 +773,7 @@ COFFEES.forEach(c => {
   });
 });
 
-/* ================================================================
-   RENDER: chỉ ẩn/hiện recipe, không rebuild HTML
-   ================================================================ */
+/* Render: chỉ ẩn/hiện recipe, không rebuild HTML */
 function renderChips(){
   const cc = document.getElementById('coffeeChips');
   cc.innerHTML = COFFEES.map((c,i)=>
