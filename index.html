@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Bộ tham chiếu 18 công thức Pour Over cho Comandante C40. So sánh trực quan V60, Switch, Flat-bottom với hướng dẫn dial-in chi tiết.">
-<meta property="og:title" content="Pour Over · 18 Công Thức">
-<meta property="og:description" content="18 công thức pha chế. 3 hạt. 6 phương pháp. Điểm xuất phát để dial-in.">
+<meta name="description" content="Bộ tham chiếu 24 công thức Pour Over cho Comandante C40. So sánh trực quan V60, Switch, Flat-bottom với hướng dẫn dial-in chi tiết.">
+<meta property="og:title" content="Pour Over · 24 Công Thức">
+<meta property="og:description" content="24 công thức pha chế. 4 hạt. 6 phương pháp. Điểm xuất phát để dial-in.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>★</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<title>Pour Over · 18 Công Thức</title>
+<title>Pour Over · 24 Công Thức</title>
 <style>
   /* Editorial coffee journal — warm paper, charcoal ink, muted green accent */
   :root{
@@ -90,7 +90,10 @@
   .sel-label .hint{font-size:10.5px;color:var(--mut);letter-spacing:0.02em;text-transform:none}
   .sel-label .hint .star{color:var(--acc)}
   .coffee-tabs{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:7px
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px
+  }
+  @media (max-width:560px){
+    .coffee-tabs{grid-template-columns:repeat(2,1fr)}
   }
   .ctab{
     text-align:left;border:1px solid var(--hair);border-radius:7px;
@@ -313,10 +316,10 @@
 <div class="wrap">
   <header class="masthead">
     <div class="mast-top">
-      <span class="mast-kicker">Sổ tay pha · <em>18 công thức</em></span>
+      <span class="mast-kicker">Sổ tay pha · <em>24 công thức</em></span>
     </div>
     <h1>Pour Over<span class="dot">.</span></h1>
-    <p class="mast-sub">Ba hạt, sáu kiểu pha — <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử.</p>
+    <p class="mast-sub">Bốn hạt, sáu kiểu pha — <b>điểm xuất phát để dial-in</b>, chưa phải công thức đã pha thử.</p>
     <div class="spec-line">
       <b>15 g</b> dose · C40 + Red Clix (thường × 2) · giấy Lyocell · nước <b>4 g/L Aquafina</b> (~70–80 ppm) — giữ nguyên mọi cốc
     </div>
@@ -364,7 +367,7 @@
   </details>
 
   <footer>
-    <span>3 hạt × 6 kiểu pha = 18 cấu hình</span>
+    <span>4 hạt × 6 kiểu pha = 24 cấu hình</span>
     <span>dữ liệu · recipe-cards.txt · C40 + Lyocell</span>
   </footer>
 </div>
@@ -552,6 +555,61 @@ const COFFEES = [
           ['1:40–1:55',170,'Thêm 60 g; ~4 g/s.',null],
         ],
         notes:['Không ép giấy, không final swirl; kiểm tra seal trước grind. Sau lọc: đảo server cho đá đã cân tan; dùng bồn đá ngoài nếu cần. Không cộng đá phục vụ ngoài 70 g.']},
+    }
+  },
+  {
+    id:'hachi', short:'HACHI', name:'HACHI LOT 41 – SŌNGLÁN (松岚)', roaster:'Fill Up / Hachi Project', roast:'Light',
+    tasting:'Mận • Trà đen • Cam quýt • Chanh • Chanh xanh • Caramel',
+    beanNote:'Light roast làm cơ sở, không bê mức nhiệt của Sidra. Nhắm mận/citrus trên nền ngọt và trà đen sạch, không cố kéo chát. Biocirculation là nhãn process, chưa có processing sheet đủ chi tiết để kết luận độ hòa tan, mức fermentation hay có co-ferment/infused. Không suy Syrina là con lai Java × Geisha từ hình hạt hoặc mô tả vị. Tên máy rang M6 không xác định development, Agtron hoặc độ dễ chiết. Note caramel không tự chứng minh rang sâu; trà đen không có nghĩa phải khô miệng.',
+    goal:'Mục tiêu: nền ngọt, mận tròn, citrus dịu hơn; hậu trà sạch.',
+    pick:'switch-hot',
+    why:'SWITCH NÓNG trước để đọc nền ngọt/mận, V60 NÓNG để so citrus–trà. Bản đá ưu tiên SWITCH ĐÁ; flat là test độ tròn sau khi giấy/flow ổn định.',
+    adjust:[],
+    recipes:{
+      'switch-hot':  {k7:23, m40:46, hotWater:240, ice:0, temp:93, time:'2:35–3:05', flow:'~4,5–4,9 g/s',
+        steps:[
+          ['0:00–0:10',45,'VAN MỞ; bloom đến 45 g; thêm 45 g; ~4,5 g/s.',null],
+          ['0:45',null,'ĐÓNG VAN trước khi rót.','closed'],
+          ['0:45–1:25',240,'Rót đến 240 g; thêm 195 g; ~4,9 g/s.',null],
+          ['1:55',null,'MỞ VAN; xả tự nhiên, không swirl.','open'],
+        ],
+        notes:['Ngâm yên 30 s sau khi rót xong. Pha van đóng 70 s (đã bao gồm thời gian rót). Xả sau mở: thử 40–70 s, không coi là deadline.']},
+      'v60-hot':     {k7:22, m40:44, hotWater:240, ice:0, temp:93, time:'2:20–2:55', flow:'~4,8–4 g/s',
+        steps:[
+          ['0:00–0:10',45,'Bloom đến 45 g; thêm 45 g; ~4,5 g/s.',null],
+          ['0:45–1:05',140,'Thêm 95 g; ~4,8 g/s.',null],
+          ['1:25–1:50',240,'Thêm 100 g; ~4 g/s.',null],
+        ],
+        notes:['Nếu dùng đế Switch, giữ VAN MỞ xuyên suốt.']},
+      'flat-hot':    {k7:23, m40:46, hotWater:240, ice:0, temp:93, time:'2:30–3:10', flow:'~4,8–4 g/s',
+        steps:[
+          ['0:00–0:10',45,'Bloom đến 45 g; thêm 45 g; ~4,5 g/s.',null],
+          ['0:45–1:05',140,'Thêm 95 g; ~4,8 g/s.',null],
+          ['1:25–1:50',240,'Thêm 100 g; ~4 g/s.',null],
+        ],
+        notes:['Preheat kính kỹ; không ép giấy, không final swirl. Theo mực slurry, không cố rót đúng giờ khi còn quá cao.']},
+      'switch-iced': {k7:22, m40:44, hotWater:160, ice:65, temp:94, time:'2:35–3:05', flow:'~4,6 g/s',
+        steps:[
+          ['0:00–0:10',45,'VAN MỞ; bloom đến 45 g; thêm 45 g; ~4,5 g/s.',null],
+          ['0:45',null,'ĐÓNG VAN trước khi rót.','closed'],
+          ['0:45–1:10',160,'Rót đến 160 g; thêm 115 g; ~4,6 g/s.',null],
+          ['2:00',null,'MỞ VAN; xả tự nhiên xuống server đá.','open'],
+        ],
+        notes:['Ngâm yên 50 s sau khi rót xong. Pha van đóng 75 s (đã bao gồm thời gian rót). Xả sau mở: thử 35–65 s, không coi là deadline. Sau lọc: Đảo đều; 65 g đá đã cân là toàn bộ dilution của recipe. Dùng bồn đá ngoài nếu cần, không cộng đá tùy ý vào cốc.']},
+      'v60-iced':    {k7:21, m40:42, hotWater:160, ice:65, temp:94, time:'2:05–2:40', flow:'~4 g/s',
+        steps:[
+          ['0:00–0:10',45,'Bloom đến 45 g; thêm 45 g; ~4,5 g/s.',null],
+          ['0:45–1:00',105,'Thêm 60 g; ~4 g/s.',null],
+          ['1:20–1:35',160,'Thêm 55 g; ~3,7 g/s.',null],
+        ],
+        notes:['Nếu dùng đế Switch, giữ VAN MỞ xuyên suốt. Sau lọc: Đảo đều; dùng bồn đá ngoài nếu cần, không thêm đá tùy ý.']},
+      'flat-iced':   {k7:22, m40:44, hotWater:160, ice:65, temp:94, time:'2:20–2:55', flow:'~4 g/s',
+        steps:[
+          ['0:00–0:10',45,'Bloom đến 45 g; thêm 45 g; ~4,5 g/s.',null],
+          ['0:45–1:00',105,'Thêm 60 g; ~4 g/s.',null],
+          ['1:25–1:40',160,'Thêm 55 g; ~3,7 g/s.',null],
+        ],
+        notes:['Không ép giấy, không final swirl; kiểm tra seal trước grind. Sau lọc: Đảo đều; dùng bồn đá ngoài nếu cần, không thêm đá tùy ý.']},
     }
   },
 ];

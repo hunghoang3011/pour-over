@@ -9,13 +9,14 @@ File: `index.html` (single-file vanilla HTML/CSS/JS)
 
 ### What exists (preserved verbatim in redesign)
 
-**Data model** — 3 coffees × 6 brewing methods = 18 recipes, unchanged:
+**Data model** — 4 coffees × 6 brewing methods = 24 recipes, unchanged:
 
 | Coffee | Roast | Origin |
 |--------|-------|--------|
 | Karina | Light | Colombia Tolima Villa Karina – Geisha Washed |
 | Sidra | Extremely Light | Colombia Café Granja La Esperanza – Sidra Washed |
 | Kenya | Natural | Kenya Geisha — Kirinyaga County |
+| HACHI | Light | HACHI LOT 41 – SŌNGLÁN (松岚), Vân Nam, Trung Quốc |
 
 | Method | Type | Ice? |
 |--------|------|------|
@@ -137,7 +138,7 @@ Implement in `index.html` only (no frameworks, no build step). Single CSS variab
 
 ## Phase 4 — Verification
 
-- [ ] All 3 coffees × 6 methods render correct parameters
+- [ ] All 4 coffees × 6 methods render correct parameters
 - [ ] Valve states (open/closed/bloom) correct per step
 - [ ] Cumulative water math correct
 - [ ] Matrix row click switches method
