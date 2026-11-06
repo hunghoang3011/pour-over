@@ -101,7 +101,11 @@
   .chip[aria-pressed="true"] .sub{color:#3d2e16}
 
   /* ---------- Recipe article ---------- */
-  .recipe{margin-top:26px}
+  .recipe{
+    margin-top:26px;
+    background:var(--bg); /* no card bg to avoid extra cost */
+  }
+  .recipe.hidden{display:none !important}
   .recipe-head{padding-bottom:18px;border-bottom:1px solid var(--line)}
   .bean-title{
     font-family:var(--font-display);
@@ -254,7 +258,7 @@
     font-size:10px;
     letter-spacing:0.1em;
     text-transform:uppercase;
-    color:var(--muted);
+    color:var(--mut);
     text-align:left;
     border-bottom:1px solid var(--line);
     padding-bottom:6px
@@ -281,7 +285,7 @@
     font-size:9.5px;
     letter-spacing:0.12em;
     text-transform:uppercase;
-    color:var(--muted);
+    color:var(--mut);
     background:#0b0a09;
     white-space:nowrap
   }
@@ -390,6 +394,9 @@
 </div>
 
 <script>
+/* ================================================================
+   DATA — 4 hạt × 6 kiểu pha = 24 công thức (từ recipe-cards.txt)
+   ================================================================ */
 const DRIPPERS = [
   {id:'switch-hot',  name:'Switch Nóng',   ice:false, prep:'Bloom van mở. Đóng van ngay trước main pour; rót tới tổng nước, để yên, mở đúng mốc rồi xả hết tự nhiên.'},
   {id:'v60-hot',     name:'V60 Nóng',      ice:false, prep:'Percolation xuyên suốt, không đóng/ngâm. Bloom rồi hai lần rót; theo trạng thái slurry nếu lệch lịch.'},
@@ -681,28 +688,9 @@ const DIALIN = [
 const DOSE = 15;
 const MINERAL = '4 g/L Aquafina (~70–80 ppm)';
 
-let state = {coffee:'karina', dripper:'switch-hot'};
-
-function renderChips(){
-  const cc = document.getElementById('coffeeChips');
-  cc.innerHTML = COFFEES.map((c,i)=>
-    `<button class="chip" data-id="${c.id}" aria-pressed="${c.id===state.coffee}">
-       <span class="nm">${c.short}</span>
-       <span class="sub">${c.roast}</span>
-     </button>`).join('');
-  const pickId = COFFEES.find(c=>c.id===state.coffee).pick;
-  document.getElementById('dripperChips').innerHTML = DRIPPERS.map(d=>
-    `<button class="chip" data-id="${d.id}" aria-pressed="${d.id===state.dripper}">
-       ${d.id===pickId?'<span class="mstar">★ </span>':''}${d.name}
-     </button>`).join('');
-  cc.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.coffee=b.dataset.id;renderAll();});
-  document.getElementById('dripperChips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.dripper=b.dataset.id;renderAll();});
-  [cc, document.getElementById('dripperChips')].forEach(box=>{
-    const sel = box.querySelector('[aria-pressed="true"]');
-    if(sel && box.scrollWidth > box.clientWidth) box.scrollLeft = sel.offsetLeft - box.clientWidth/2 + sel.clientWidth/2;
-  });
-}
-
+/* ================================================================
+   PRE-RENDER: dựng toàn bộ HTML recipe một lần để tránh lag
+   ================================================================ */
 function fmtWater(r){
   return r.ice>0 ? `${r.hotWater} g + ${r.ice} g đá` : `${r.hotWater} g`;
 }
@@ -711,13 +699,11 @@ function totalWater(r){ return r.hotWater + r.ice; }
 
 function ratio(w){ return '1:' + (Math.round((w/DOSE)*10)/10).toString().replace('.',','); }
 
-function renderRecipe(){
-  const c = COFFEES.find(x=>x.id===state.coffee);
-  const d = DRIPPERS.find(x=>x.id===state.dripper);
-  const r = c.recipes[state.dripper];
+function buildRecipeHTML(c, d, r){
   const isPick = c.pick === state.dripper;
   const pickD = DRIPPERS.find(x=>x.id===c.pick);
   const pr = c.recipes[c.pick];
+  const tw = totalWater(r);
 
   let prev = 0;
   const steps = r.steps.map(([t,w,note,valve],i)=>{
@@ -752,9 +738,8 @@ function renderRecipe(){
     </tr>`;
   }).join('');
 
-  const tw = totalWater(r);
-  document.getElementById('recipe').innerHTML = `
-  <article class="recipe">
+  return `
+  <article class="recipe recipe-${c.id}-${state.dripper}">
     <div class="recipe-head">
       <div class="bean-title">${c.name}</div>
       <div class="bean-meta">
@@ -782,7 +767,7 @@ function renderRecipe(){
 
     <div class="section">
       <h3>So nhanh 6 kiểu pha<span class="flow"> · ${c.name.replace(/^Colombia |^Kenya /,'')}</span></h3>
-      <table id="matrix">
+      <table id="matrix-${c.id}-${d.id}">
         <thead><tr><th>Kiểu pha</th><th>C40 thường</th><th>C40 Red Clix</th><th>Nước</th><th>Nhiệt</th><th>Khoáng</th><th>Finish</th></tr></thead>
         <tbody>${matrix}</tbody>
       </table>
@@ -802,13 +787,60 @@ function renderRecipe(){
       <p class="note">${c.why}</p>
     </div>
   </article>`;
+}
 
-  document.querySelectorAll('#matrix tbody tr').forEach(tr=>{
-    tr.onclick = ()=>{ state.dripper = tr.dataset.id; renderAll(); };
+function valveLbl(v){ return v==='open' ? '<span class="lbl open">van mở</span>' : '<span class="lbl closed">van đóng</span>'; }
+
+/* Build all recipe HTML once at load */
+const recipeHTML = {};
+COFFEES.forEach(c => {
+  DRIPPERS.forEach(d => {
+    const r = c.recipes[d.id];
+    recipeHTML[`${c.id}-${d.id}`] = buildRecipeHTML(c, d, r);
+  });
+});
+
+/* ================================================================
+   RENDER: chỉ ẩn/hiện recipe, không rebuild HTML
+   ================================================================ */
+function renderChips(){
+  const cc = document.getElementById('coffeeChips');
+  cc.innerHTML = COFFEES.map((c,i)=>
+    `<button class="chip" data-id="${c.id}" aria-pressed="${c.id===state.coffee}">
+       <span class="nm">${c.short}</span>
+       <span class="sub">${c.roast}</span>
+     </button>`).join('');
+  const pickId = COFFEES.find(c=>c.id===state.coffee).pick;
+  document.getElementById('dripperChips').innerHTML = DRIPPERS.map(d=>
+    `<button class="chip" data-id="${d.id}" aria-pressed="${d.id===state.dripper}">
+       ${d.id===pickId?'<span class="mstar">★ </span>':''}${d.name}
+     </button>`).join('');
+  cc.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.coffee=b.dataset.id;render();});
+  document.getElementById('dripperChips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.dripper=b.dataset.id;render();});
+  [cc, document.getElementById('dripperChips')].forEach(box=>{
+    const sel = box.querySelector('[aria-pressed="true"]');
+    if(sel && box.scrollWidth > box.clientWidth) box.scrollLeft = sel.offsetLeft - box.clientWidth/2 + sel.clientWidth/2;
   });
 }
 
-function renderTables(){
+function render(){
+  const c = COFFEES.find(x=>x.id===state.coffee);
+  const d = DRIPPERS.find(x=>x.id===state.dripper);
+  const key = `${c.id}-${d.id}`;
+
+  // Switch recipe article (instant swap)
+  document.querySelectorAll('.recipe').forEach(el=>el.classList.add('hidden'));
+  let el = document.getElementById(`recipe-${key}`);
+  if(!el){
+    el = document.createElement('div');
+    el.id = `recipe-${key}`;
+    el.className = 'recipe';
+    el.innerHTML = recipeHTML[key];
+    document.getElementById('recipe').appendChild(el);
+  }
+  el.classList.remove('hidden');
+
+  // Re-render static tables (these are small and cheap)
   document.querySelector('#firstFive tbody').innerHTML = COFFEES.map(c=>{
     const pr = c.recipes[c.pick];
     const pickD = DRIPPERS.find(d=>d.id===c.pick);
@@ -824,15 +856,11 @@ function renderTables(){
 
   document.querySelector('#dialin tbody').innerHTML = DIALIN.map(r=>
     `<tr><td>${r[0]}</td><td class="num">${r[1]}</td></tr>`).join('');
-}
 
-function renderBeanNotes(){
   document.getElementById('beanNotes').innerHTML = COFFEES.map(c=>
     `<p><b>${c.name}</b> (${c.roast}): ${c.beanNote}</p>`
   ).join('');
-}
 
-function renderCommonNotes(){
   document.getElementById('commonNotes').innerHTML = [
     'Dose: 15 g cà phê cho mọi cấu hình. C40: ghi click THƯỜNG và Red Clix riêng (Red Clix = thường × 2). Đếm từ zero theo hướng dẫn C40; không siết mạnh hai burr.',
     'V60: Bincoo size 2 Tritan + Lyocell V60; nếu dùng đế van thì van MỞ xuyên suốt. Không thêm ngâm trong bản V60 thường.',
@@ -841,14 +869,19 @@ function renderCommonNotes(){
     'Bloom 45 g từ 0:00 đến 0:10, vòng nhỏ làm ướt đều toàn bed. Main pour: dòng liền, thấp, vòng nhỏ vùng giữa; không khoan một điểm cố định, không quét sát giấy. Không final swirl/gõ phễu.',
     'Nước khoáng: 4 g dung dịch pha sẵn / 1 L Aquafina (~70–80 ppm), giữ nguyên cho mọi cốc. Đá: làm từ nước Aquafina đã khoáng hóa, 70 g trong server đã mát.',
   ].map(n=>`<p>${n}</p>`).join('');
+
+  // Re-bind matrix row clicks for the currently shown matrix
+  document.querySelectorAll('#matrix tbody tr').forEach(tr=>{
+    tr.onclick = ()=>{ state.dripper = tr.dataset.id; renderAll(); };
+  });
 }
 
-function renderAll(){ renderChips(); renderRecipe(); }
+function renderAll(){
+  renderChips();
+  render();
+}
 
 renderAll();
-renderTables();
-renderBeanNotes();
-renderCommonNotes();
 </script>
 </body>
 </html>
