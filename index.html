@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pour Over · 18 Công Thức</title>
+<meta name="description" content="Bộ tham chiếu 18 công thức Pour Over cho Comandante C40. So sánh trực quan V60, Switch, Flat-bottom với hướng dẫn dial-in chi tiết.">
+<meta property="og:title" content="Pour Over · 18 Công Thức">
+<meta property="og:description" content="18 công thức pha chế. 3 hạt. 6 phương pháp. Điểm xuất phát để dial-in.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%E2%98%85</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<title>Pour Over · 18 Công Thức</title>
 <style>
-  /* Editorial palette — restrained, warm, intentional */
+  /* Editorial palette — restrained, warm, no yellow */
   :root{
-    --bg:#0b0a09;       /* deep black, coffee bean */
-    --fg:#e8e2d8;       /* warm off-white body */
-    --muted:#8f7e70;    /* warm gray for secondary text */
-    --acc:#c9a25a;      /* coffee gold — single accent */
-    --acc-dim:rgba(201,162,90,0.10);
-    --line:#26211c;     /* subtle divider */
-    --close:#a54d3c;    /* valve closed — restrained red */
-    --close-dim:rgba(165,77,60,0.10);
-    --radius:6px;       /* small, sharp radius only */
+    --bg:#0a0908;        /* deep warm black */
+    --fg:#e8e2d8;        /* warm off-white body */
+    --muted:#7f7466;     /* warm gray for secondary text */
+    --acc:#8a7e6e;       /* muted warm taupe — single accent, not yellow */
+    --line:#1c1814;      /* subtle divider */
+    --radius:4px;        /* small, sharp radius only */
     --font-ui:'Inter', system-ui, -apple-system, sans-serif;
     --font-display:'Lora', Georgia, serif;
   }
@@ -31,26 +33,25 @@
     font-size:15px;
     line-height:1.55;
     padding-bottom:calc(40px + env(safe-area-inset-bottom));
+    -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+  .wrap{max-width:700px;margin:0 auto;padding:0 16px}
 
   /* ---------- Header ---------- */
-  header{padding:calc(22px + env(safe-area-inset-top)) 0 24px}
-  .brand{
-    display:flex;flex-direction:column;gap:4px
-  }
+  header{padding:calc(24px + env(safe-area-inset-top)) 0 26px}
+  .brand{display:flex;flex-direction:column;gap:4px}
   .brand h1{
     font-family:var(--font-display);
-    font-size:26px;
+    font-size:24px;
     font-weight:500;
     letter-spacing:-0.02em;
     color:var(--fg)
   }
-  .brand h1 em{font-style:normal;color:var(--acc)}
+  .brand h1 em{font-style:normal;color:var(--muted)}
   .brand p{
-    font-size:12.5px;
+    font-size:12px;
     color:var(--muted);
-    letter-spacing:0.04em;
+    letter-spacing:0.14em;
     text-transform:uppercase
   }
   .intro{
@@ -71,9 +72,7 @@
     padding:10px 0
   }
   .controls-inner{display:flex;flex-direction:column;gap:10px}
-  .group{
-    display:flex;flex-direction:column;gap:6px
-  }
+  .group{display:flex;flex-direction:column;gap:6px}
   .group-label{
     font-size:10px;
     font-weight:600;
@@ -89,7 +88,7 @@
   .chip{
     flex:0 0 auto;
     border:1px solid var(--line);
-    background:#14110e;
+    background:#100e0c;
     color:var(--fg);
     border-radius:var(--radius);
     padding:8px 12px;
@@ -97,21 +96,19 @@
     font-weight:500;
     cursor:pointer;
     white-space:nowrap;
-    min-height:40px;
-    transition:border-color 0.15s,background 0.15s,color 0.15s
+    min-height:40px
   }
   .chip .sub{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:2px}
   .chip[aria-pressed="true"]{
-    background:var(--acc);
-    border-color:var(--acc);
-    color:#0b0a09;
+    background:var(--fg);
+    border-color:var(--fg);
+    color:#0a0908;
     font-weight:600
   }
-  .chip[aria-pressed="true"] .sub{color:#3d2e16}
-  .chip .star{color:#7a5a00;margin-right:4px;font-size:11px}
+  .chip[aria-pressed="true"] .sub{color:#5a5044}
 
   /* ---------- Recipe article ---------- */
-  .recipe{margin-top:26px}
+  .recipe{margin-top:28px}
   .recipe-head{padding-bottom:18px;border-bottom:1px solid var(--line)}
   .bean-title{
     font-family:var(--font-display);
@@ -130,18 +127,12 @@
     letter-spacing:0.05em;
     text-transform:uppercase
   }
-  .bean-meta .pick{
-    color:var(--acc);
-    font-weight:600
-  }
   .goal{
     margin-top:12px;
     font-size:13px;
     color:var(--fg);
     font-style:italic
   }
-  .goal::before{content:'“';font-size:20px;line-height:0.8;vertical-align:-0.1em;margin-right:4px;color:var(--muted)}
-  .goal::after{content:'”';font-size:20px;line-height:0.8;vertical-align:-0.1em;margin-left:4px;color:var(--muted)}
   .bean-notes{
     margin-top:12px;
     font-size:12.5px;
@@ -150,41 +141,21 @@
   }
   .bean-notes b{color:var(--fg);font-weight:500}
 
-  /* ---------- Stats strip ---------- */
-  .stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:1px;
-    background:var(--line);
+  /* ---------- Spec line (replaces repetitive stat cards) ---------- */
+  .spec{
+    display:flex;flex-wrap:wrap;gap:14px 22px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+    font-size:12px;
+    color:var(--muted);
     margin:20px 0
   }
-  .stat{
-    background:#14110e;
-    padding:14px 10px;
-    text-align:center;
-    border-top:1px solid var(--line)
-  }
-  .stat:first-child{border-top:none}
-  .stat .k{
-    font-size:9.5px;
-    font-weight:600;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin-bottom:4px
-  }
-  .stat .v{
-    font-family:var(--font-display);
-    font-size:19px;
-    font-weight:500;
-    color:var(--fg);
-    letter-spacing:-0.01em
-  }
-  .stat .u{
-    font-size:10px;
-    color:var(--muted);
-    display:block;
-    margin-top:2px
+  .spec b{color:var(--fg);font-weight:500}
+  .spec span:not(:first-child)::before{
+    content:"·";
+    margin:0 8px;
+    color:var(--line)
   }
 
   /* ---------- Section ---------- */
@@ -196,8 +167,8 @@
     letter-spacing:-0.01em;
     color:var(--fg);
     margin-bottom:10px;
-    border-left:2px solid var(--acc);
-    padding-left:8px
+    padding-bottom:6px;
+    border-bottom:1px solid var(--line)
   }
   .section h3 .flow{
     font-family:var(--font-ui);
@@ -214,7 +185,7 @@
     display:grid;
     grid-template-columns:36px 1fr;
     gap:12px;
-    padding:12px 0;
+    padding:11px 0;
     border-bottom:1px solid var(--line)
   }
   .step:last-child{border-bottom:none}
@@ -226,7 +197,7 @@
     font-weight:600;font-size:12px;color:var(--muted)
   }
   .step .bloom .no{border-color:var(--acc);color:var(--acc)}
-  .step .valve-closed .no{border-color:var(--close);color:var(--close)}
+  .step .valve-closed .no{border-color:var(--acc);color:var(--acc)}
   .step .row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .step .t{
     font-variant-numeric:tabular-nums;
@@ -247,7 +218,7 @@
     border-radius:3px
   }
   .lbl.bloom{border-color:var(--acc);color:var(--acc)}
-  .lbl.closed{border-color:var(--close);color:var(--close)}
+  .lbl.closed{border-color:var(--acc);color:var(--acc)}
   .step .d{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
 
   /* ---------- Notes ---------- */
@@ -276,10 +247,9 @@
   }
   #matrix td{border-bottom:1px solid var(--line);color:var(--fg)}
   #matrix tr{cursor:pointer}
-  #matrix tr:active{background:#14110e}
-  #matrix tr.sel td{background:var(--acc-dim)}
-  #matrix tr.sel td:first-child{box-shadow:inset 2px 0 0 var(--acc)}
-  #matrix .mstar{color:var(--acc);font-weight:700;margin-right:4px}
+  #matrix tr:active{background:#100e0c}
+  #matrix tr.sel td{background:rgba(138,126,110,0.06)}
+  #matrix tr.sel td:first-child{border-left:2px solid var(--acc)}
 
   /* ---------- Tables ---------- */
   .scroll-wrap{
@@ -288,7 +258,7 @@
     overflow:hidden;
     margin-top:8px
   }
-  table{border-collapse:collapse;width:100%;font-size:12.5px;background:#14110e}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;background:#100e0c}
   th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
   th{
     font-family:var(--font-ui);
@@ -297,7 +267,7 @@
     letter-spacing:0.12em;
     text-transform:uppercase;
     color:var(--muted);
-    background:#0b0a09;
+    background:#0a0908;
     white-space:nowrap
   }
   tr:last-child td{border-bottom:none}
@@ -306,7 +276,7 @@
 
   /* ---------- Details ---------- */
   details{
-    background:#14110e;
+    background:#100e0c;
     border:1px solid var(--line);
     border-radius:var(--radius);
     margin-top:16px;
@@ -353,8 +323,8 @@
 
   /* Mobile adjustments */
   @media (max-width:480px){
-    .brand h1{font-size:22px}
-    .stats{grid-template-columns:1fr}
+    .brand h1{font-size:20px}
+    .spec{gap:10px 16px;font-size:11px}
     .step{grid-template-columns:34px 1fr}
   }
 </style>
@@ -607,15 +577,6 @@ const DIALIN = [
 const DOSE = 15;
 const MINERAL = '4 g/L Aquafina (~70–80 ppm)';
 
-const COMMON_NOTES = [
-  'Dose: 15 g cà phê cho mọi cấu hình. C40: ghi click THƯỜNG và Red Clix riêng (Red Clix = thường × 2). Đếm từ zero theo hướng dẫn C40; không siết mạnh hai burr.',
-  'V60: Bincoo size 2 Tritan + Lyocell V60; nếu dùng đế van thì van MỞ xuyên suốt. Không thêm ngâm trong bản V60 thường.',
-  'Switch: giả định dùng bowl Tritan có gân với đế van tương thích. Bloom van mở, đóng van ngay trước main pour, mở đúng mốc rồi xả hết tự nhiên.',
-  'Flat: Yearntour 155 thủy glass no-rib + Lyocell 155. Đặt giấy tự nhiên, không ép sát thành, không làm xệ/bịt đáy.',
-  'Bloom 45 g từ 0:00 đến 0:10, vòng nhỏ làm ướt đều toàn bed. Main pour: dòng liền, thấp, vòng nhỏ vùng giữa; không khoan một điểm cố định, không quét sát giấy. Không final swirl/gõ phễu.',
-  'Nước khoáng: 4 g dung dịch pha sẵn / 1 L Aquafina (~70–80 ppm), giữ nguyên cho mọi cốc. Đá: làm từ nước Aquafina đã khoáng hóa, 70 g trong server đã mát.',
-];
-
 let state = {coffee:'karina', dripper:'switch-hot'};
 try{
   const s = JSON.parse(localStorage.getItem('pourover')||'null');
@@ -629,7 +590,7 @@ function renderChips(){
   ).join('');
   const pickId = COFFEES.find(c=>c.id===state.coffee).pick;
   document.getElementById('dripperChips').innerHTML = DRIPPERS.map(d=>
-    `<button class="chip" data-id="${d.id}" aria-pressed="${d.id===state.dripper}">${d.id===pickId?'<span class="star">★</span> ':''}${d.name}</button>`
+    `<button class="chip" data-id="${d.id}" aria-pressed="${d.id===state.dripper}">${d.id===pickId?'★ ':''}${d.name}</button>`
   ).join('');
   cc.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.coffee=b.dataset.id;save();renderAll();});
   document.getElementById('dripperChips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{state.dripper=b.dataset.id;save();renderAll();});
@@ -647,11 +608,6 @@ function fmtWater(r){
 function totalWater(r){ return r.hotWater + r.ice; }
 
 function ratio(w){ return '1:' + (Math.round((w/DOSE)*10)/10).toString().replace('.',','); }
-
-function valveLbl(v){
-  if(v==='open') return '<span class="lbl bloom">van mở</span>';
-  return '<span class="lbl closed">van đóng</span>';
-}
 
 function stepClass(valve, isBloom){
   let cls = '';
@@ -675,12 +631,12 @@ function renderRecipe(){
     const isBloom = i===0;
     const cls = stepClass(valve, isBloom);
     return `<li class="step ${cls}">
-      <span class="no">${isBloom?'❋':i+1}</span>
+      <span class="no">${isBloom?'•':i+1}</span>
       <span>
         <span class="row">
           <span class="t">${t}</span>
           ${add!=null?`<span class="add">+${add} g</span><span class="cum">→ ${w} g</span>`:''}
-          ${valve?valveLbl(valve):''}
+          ${valve?`<span class="lbl">${valve==='open'?'van mở':'van đóng'}</span>`:''}
         </span>
         ${note?`<div class="d">${note}</div>`:''}
       </span>
@@ -690,7 +646,7 @@ function renderRecipe(){
   const matrix = DRIPPERS.map(dd=>{
     const rr = c.recipes[dd.id];
     return `<tr data-id="${dd.id}" class="${dd.id===state.dripper?'sel':''}">
-      <td>${dd.id===c.pick?'<span class="mstar">★</span> ':''}${dd.name}</td>
+      <td>${dd.id===c.pick?'★ ':''}${dd.name}</td>
       <td class="num">${rr.k7}</td>
       <td class="num">${rr.m40}</td>
       <td class="num">${fmtWater(rr)}</td>
@@ -708,20 +664,19 @@ function renderRecipe(){
       <div class="bean-meta">
         <span>${c.roaster}</span>
         <span>${c.roast}</span>
-        <span class="pick">${d.name}</span>
       </div>
       <p class="goal">${c.goal}</p>
       <div class="bean-notes"><b>Hương:</b> ${c.tasting}</div>
       <div class="bean-notes"><b>Lưu ý hạt:</b> ${c.beanNote}</div>
     </div>
 
-    <div class="stats">
-      <div class="stat"><div class="k">C40 thường</div><div class="v">${r.k7}</div><div class="u">click từ zero</div></div>
-      <div class="stat"><div class="k">C40 Red Clix</div><div class="v">${r.m40}</div><div class="u">click</div></div>
-      <div class="stat"><div class="k">Nước</div><div class="v">${fmtWater(r)}</div><div class="u">· ${ratio(tw)}</div></div>
-      <div class="stat"><div class="k">Nhiệt độ</div><div class="v">${r.temp}</div><div class="u">°C trong ấm</div></div>
-      <div class="stat"><div class="k">Khoáng</div><div class="v">${MINERAL}</div><div class="u">giữ nguyên mọi cốc</div></div>
-      <div class="stat"><div class="k">Finish thử</div><div class="v">${r.time}</div><div class="u">tham khảo</div></div>
+    <div class="spec">
+      <span><b>C40</b> ${r.k7} click</span>
+      <span><b>Red Clix</b> ${r.m40}</span>
+      <span><b>Nước</b> ${fmtWater(r)}</span>
+      <span><b>Nhiệt</b> ${r.temp}°C</span>
+      <span><b>Khoáng</b> ${MINERAL}</span>
+      <span><b>Finish</b> ${r.time}</span>
     </div>
 
     <div class="section">
@@ -783,7 +738,14 @@ function renderBeanNotes(){
 }
 
 function renderCommonNotes(){
-  document.getElementById('commonNotes').innerHTML = COMMON_NOTES.map(n=>`<p>${n}</p>`).join('');
+  document.getElementById('commonNotes').innerHTML = [
+    'Dose: 15 g cà phê cho mọi cấu hình. C40: ghi click THƯỜNG và Red Clix riêng (Red Clix = thường × 2). Đếm từ zero theo hướng dẫn C40; không siết mạnh hai burr.',
+    'V60: Bincoo size 2 Tritan + Lyocell V60; nếu dùng đế van thì van MỞ xuyên suốt. Không thêm ngâm trong bản V60 thường.',
+    'Switch: giả định dùng bowl Tritan có gân với đế van tương thích. Bloom van mở, đóng van ngay trước main pour, mở đúng mốc rồi xả hết tự nhiên.',
+    'Flat: Yearntour 155 thủy glass no-rib + Lyocell 155. Đặt giấy tự nhiên, không ép sát thành, không làm xệ/bịt đáy.',
+    'Bloom 45 g từ 0:00 đến 0:10, vòng nhỏ làm ướt đều toàn bed. Main pour: dòng liền, thấp, vòng nhỏ vùng giữa; không khoan một điểm cố định, không quét sát giấy. Không final swirl/gõ phễu.',
+    'Nước khoáng: 4 g dung dịch pha sẵn / 1 L Aquafina (~70–80 ppm), giữ nguyên cho mọi cốc. Đá: làm từ nước Aquafina đã khoáng hóa, 70 g trong server đã mát.',
+  ].map(n=>`<p>${n}</p>`).join('');
 }
 
 function save(){ try{localStorage.setItem('pourover',JSON.stringify(state));}catch(e){} }
